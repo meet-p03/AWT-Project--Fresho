@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fresho – Local Farmer Marketplace UI Showcase</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN for presentation layout -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            fresho: {
+              primary: '#17703A',
+              dark: '#0D3B22',
+              lime: '#C6E35A',
+              bg: '#F6F9F2',
+              card: '#FFFFFF',
+              border: '#E3EADB',
+              tomato: '#E4572E',
+              mango: '#F4A62A',
+              leaf: '#3E9B4F',
+              potato: '#C9A06A'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* CSS RESET & GENERAL STYLES */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0c1911;
+      color: #1a202c;
+      overflow-x: hidden;
+    }
+
+    /* CUSTOM SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f2317;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #17703a;
+      border-radius: 4px;
+    }
+
+    /* PHONE FRAME MOCKUP */
+    .phone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: #F6F9F2;
+      border-radius: 48px;
+      border: 10px solid #1e2923;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .phone-frame:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 60px -12px rgba(198, 227, 90, 0.15), 0 0 0 2px #C6E35A;
+    }
+
+    /* PHONE STATUS BAR & DYNAMIC ISLAND */
+    .status-bar {
+      height: 44px;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0D3B22;
+      z-index: 50;
+      background: transparent;
+      flex-shrink: 0;
+    }
+    .notch {
+      width: 110px;
+      height: 28px;
+      background-color: #1e2923;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 51;
+    }
+
+    .phone-screen-content {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 20px;
+    }
+    .phone-screen-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* DESIGN SYSTEM UTILITY CLASSES FOR SCREENS */
+    .btn-fresho-primary {
+      background-color: #17703A;
+      color: #FFFFFF;
+      font-weight: 700;
+      border-radius: 9999px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .btn-fresho-primary:active {
+      transform: scale(0.98);
+    }
+    .btn-fresho-secondary {
+      background-color: #FFFFFF;
+      color: #17703A;
+      font-weight: 700;
+      border-radius: 9999px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border: 1px solid #E3EADB;
+      cursor: pointer;
+    }
+
+    .fresho-card {
+      background: #FFFFFF;
+      border: 1px solid #E3EADB;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .fresho-input {
+      width: 100%;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid #E3EADB;
+      background: #FFFFFF;
+      padding: 0 16px;
+      font-size: 14px;
+      color: #0D3B22;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .fresho-input:focus {
+      border-color: #17703A;
+    }
+
+    /* STATUS PILLS */
+    .pill-pending { background-color: #FEF3C7; color: #92400E; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 9999px; }
+    .pill-confirmed { background-color: #E0F2FE; color: #075985; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 9999px; }
+    .pill-shipped { background-color: #F3E8FF; color: #6B21A8; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 9999px; }
+    .pill-delivered { background-color: #DCFCE7; color: #166534; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 9999px; }
+    .pill-cancelled { background-color: #FEE2E2; color: #991B1B; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 9999px; }
+
+    /* CSS KEYFRAME ANIMATIONS */
+    /* 1. Staggered Entrance */
+    .animate-fade-up {
+      animation: fadeUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    /* 2. Floating Produce Animation */
+    .animate-float {
+      animation: floatProduce 4s ease-in-out infinite alternate;
+    }
+    .animate-float-delayed {
+      animation: floatProduce 4.5s ease-in-out 1s infinite alternate;
+    }
+    @keyframes floatProduce {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-8px) rotate(4deg); }
+    }
+
+    /* 3. Button Diagonal Shine Sweep */
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(25deg);
+      animation: shineSweep 3.4s infinite;
+    }
+    @keyframes shineSweep {
+      0%, 70% { left: -60%; }
+      100% { left: 140%; }
+    }
+
+    /* 4. Pulsing Aura & Add Button Ring */
+    .animate-pulse-ring {
+      position: relative;
+    }
+    .animate-pulse-ring::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 9999px;
+      background-color: #17703A;
+      opacity: 0.4;
+      animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      z-index: -1;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+
+    /* 5. Rotating Dashed Ring Behind Product */
+    .animate-rotate-dashed {
+      animation: rotateDashed 20s linear infinite;
+    }
+    @keyframes rotateDashed {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* 6. Moving Truck Animation */
+    .animate-truck-move {
+      animation: truckDrive 3s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+    }
+    @keyframes truckDrive {
+      0% { transform: translateX(0px); }
+      100% { transform: translateX(110px); }
+    }
+
+    /* 7. Bar Chart Rise Animation */
+    .animate-bar-grow {
+      transform-origin: bottom;
+      animation: barGrow 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes barGrow {
+      0% { transform: scaleY(0); }
+      100% { transform: scaleY(1); }
+    }
+
+    /* ACCESSIBILITY: REDUCED MOTION */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::after, ::before {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-20">
+
+  <!-- TOP HEADER & CONTROLS -->
+  <header class="bg-[#0f2317] border-b border-[#1e3b2b] sticky top-0 z-50 px-6 py-4 backdrop-blur-md bg-opacity-90">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <!-- Fresho Logo SVG -->
+        <div class="w-10 h-10 rounded-xl bg-[#17703A] flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-green-900/40">
+          <svg class="w-6 h-6 text-[#C6E35A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            Fresho <span class="text-xs px-2.5 py-0.5 rounded-full bg-[#17703A] text-[#C6E35A] font-bold uppercase tracking-wider">Design System v1.0</span>
+          </h1>
+          <p class="text-xs text-emerald-400 font-medium">Local Farmer Marketplace • 12 Animated Mobile Screens</p>
+        </div>
+      </div>
+
+      <!-- FILTER TABS -->
+      <div class="flex flex-wrap items-center gap-1.5 bg-[#172b1e] p-1.5 rounded-xl border border-[#274833]">
+        <button onclick="filterScreens('all')" class="filter-btn active text-xs font-bold px-3.5 py-1.5 rounded-lg text-white bg-[#17703A] transition">All (12)</button>
+        <button onclick="filterScreens('onboarding')" class="filter-btn text-xs font-bold px-3.5 py-1.5 rounded-lg text-emerald-300 hover:text-white transition">Onboarding</button>
+        <button onclick="filterScreens('customer')" class="filter-btn text-xs font-bold px-3.5 py-1.5 rounded-lg text-emerald-300 hover:text-white transition">Customer Flow</button>
+        <button onclick="filterScreens('farmer')" class="filter-btn text-xs font-bold px-3.5 py-1.5 rounded-lg text-emerald-300 hover:text-white transition">Farmer App</button>
+        <button onclick="filterScreens('admin')" class="filter-btn text-xs font-bold px-3.5 py-1.5 rounded-lg text-emerald-300 hover:text-white transition">Admin Portal</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CANVAS GRID (SHOWCASING ALL 12 MOBILE SCREENS SIDE-BY-SIDE) -->
+  <main class="max-w-[1700px] mx-auto px-6 pt-10">
+    <div id="screens-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center">
+
+      <!-- ==========================================
+           SCREEN 1: SPLASH SCREEN
+      ========================================== -->
+      <div class="screen-card onboarding" data-category="onboarding">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 01. Splash Screen
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content bg-gradient-to-b from-[#17703A] to-[#0D3B22] text-white p-6 justify-between text-center relative overflow-hidden">
+            <!-- Pulsing Circle Aura -->
+            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#C6E35A]/10 rounded-full blur-2xl animate-pulse"></div>
+
+            <div class="pt-12 z-10 animate-fade-up">
+              <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl mx-auto flex items-center justify-center mb-3 border border-white/20">
+                <svg class="w-10 h-10 text-[#C6E35A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+              </div>
+              <h2 class="text-3xl font-extrabold tracking-tight">Fresho</h2>
+              <p class="text-emerald-200 text-xs font-medium mt-1">Fresh From Farms To Your Home</p>
+            </div>
+
+            <!-- SVG Produce Crate -->
+            <div class="my-auto z-10 animate-fade-up delay-2 relative">
+              <svg class="w-48 h-48 mx-auto animate-float drop-shadow-2xl" viewBox="0 0 200 200" fill="none">
+                <!-- Wooden Crate -->
+                <path d="M20 120 L180 120 L160 180 L40 180 Z" fill="#C9A06A" stroke="#8B5A2B" stroke-width="4"/>
+                <path d="M15 120 L185 120 L185 135 L15 135 Z" fill="#D8B482" stroke="#8B5A2B" stroke-width="3"/>
+                <line x1="30" y1="120" x2="48" y2="180" stroke="#8B5A2B" stroke-width="3"/>
+                <line x1="170" y1="120" x2="152" y2="180" stroke="#8B5A2B" stroke-width="3"/>
+                <line x1="100" y1="120" x2="100" y2="180" stroke="#8B5A2B" stroke-width="3"/>
+                <!-- Produce inside -->
+                <!-- Tomato -->
+                <circle cx="70" cy="105" r="22" fill="#E4572E"/>
+                <path d="M70 83 C65 78, 75 78, 70 83 Z" fill="#3E9B4F"/>
+                <!-- Carrot -->
+                <path d="M120 70 L140 115 L125 118 Z" fill="#F4A62A"/>
+                <!-- Leaf Spinach -->
+                <path d="M90 75 C60 50 110 40 100 80" fill="#3E9B4F"/>
+                <!-- Mango -->
+                <circle cx="125" cy="108" r="18" fill="#F4A62A"/>
+              </svg>
+            </div>
+
+            <div class="pb-6 z-10 animate-fade-up delay-4">
+              <button onclick="openModal('01. Splash Screen')" class="btn-fresho-primary bg-[#C6E35A] text-[#0D3B22] font-extrabold btn-shine shadow-lg">
+                Get Started
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 2: ROLE SELECTION
+      ========================================== -->
+      <div class="screen-card onboarding" data-category="onboarding">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 02. Role Selection
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-5 justify-between">
+            <div>
+              <div class="mt-4 mb-6">
+                <h2 class="text-2xl font-extrabold text-[#0D3B22]">Welcome to Fresho</h2>
+                <p class="text-xs text-gray-500 mt-1">Please select your account type to proceed</p>
+              </div>
+
+              <!-- Role Cards -->
+              <div class="space-y-3">
+                <!-- Customer Card (Selected) -->
+                <div class="fresho-card border-2 border-[#17703A] bg-emerald-50/50 p-4 rounded-2xl flex items-center justify-between cursor-pointer">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#17703A] text-white flex items-center justify-center font-bold">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    </div>
+                    <div>
+                      <h3 class="font-extrabold text-sm text-[#0D3B22]">Customer</h3>
+                      <p class="text-[11px] text-gray-500">Buy fresh produce direct from local farms</p>
+                    </div>
+                  </div>
+                  <div class="w-5 h-5 rounded-full bg-[#17703A] flex items-center justify-center text-white text-xs">✓</div>
+                </div>
+
+                <!-- Farmer Card -->
+                <div class="fresho-card p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-gray-300">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-[#F4A62A] flex items-center justify-center font-bold">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7.865"></path></svg>
+                    </div>
+                    <div>
+                      <h3 class="font-extrabold text-sm text-[#0D3B22]">Local Farmer</h3>
+                      <p class="text-[11px] text-gray-500">Sell harvested crops directly to customers</p>
+                    </div>
+                  </div>
+                  <div class="w-5 h-5 rounded-full border border-gray-300"></div>
+                </div>
+
+                <!-- Administrator Card -->
+                <div class="fresho-card p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:border-gray-300">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <div>
+                      <h3 class="font-extrabold text-sm text-[#0D3B22]">Administrator</h3>
+                      <p class="text-[11px] text-gray-500">Verify farmers and manage marketplace</p>
+                    </div>
+                  </div>
+                  <div class="w-5 h-5 rounded-full border border-gray-300"></div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-fresho-primary btn-shine mt-6">Continue</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 3: SIGN UP
+      ========================================== -->
+      <div class="screen-card onboarding" data-category="onboarding">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 03. Sign Up
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-5 justify-between">
+            <div>
+              <h2 class="text-2xl font-extrabold text-[#0D3B22] mt-2">Create Account</h2>
+              <p class="text-xs text-gray-500 mb-4">Join the Fresho local food community</p>
+
+              <!-- Role Tabs -->
+              <div class="flex bg-gray-200/60 p-1 rounded-xl mb-4 text-xs font-bold text-gray-600">
+                <button class="flex-1 py-2 rounded-lg bg-white text-[#17703A] shadow-sm">Customer</button>
+                <button class="flex-1 py-2 rounded-lg">Farmer</button>
+                <button class="flex-1 py-2 rounded-lg">Admin</button>
+              </div>
+
+              <div class="space-y-3">
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 mb-1 block">FULL NAME</label>
+                  <input type="text" class="fresho-input" value="Rahul Sharma">
+                </div>
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 mb-1 block">EMAIL ADDRESS</label>
+                  <input type="email" class="fresho-input" value="rahul.sharma@example.in">
+                </div>
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 mb-1 block">PHONE NUMBER</label>
+                  <input type="tel" class="fresho-input" value="+91 98765 43210">
+                </div>
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 mb-1 block">PASSWORD</label>
+                  <input type="password" class="fresho-input" value="••••••••••••">
+                </div>
+
+                <div class="flex items-center space-x-2 pt-1">
+                  <input type="checkbox" id="terms" checked class="rounded accent-[#17703A] w-4 h-4">
+                  <label for="terms" class="text-xs text-gray-600">I agree to Terms & Conditions</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <button class="btn-fresho-primary btn-shine">Register Account</button>
+              <p class="text-center text-xs text-gray-500 mt-3">Already have an account? <span class="text-[#17703A] font-bold cursor-pointer">Login</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 4: LOGIN
+      ========================================== -->
+      <div class="screen-card onboarding" data-category="onboarding">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 04. Login
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-5 justify-between">
+            <div>
+              <div class="text-center my-4">
+                <div class="w-12 h-12 bg-[#17703A] rounded-2xl mx-auto flex items-center justify-center text-white mb-2">
+                  <svg class="w-7 h-7 text-[#C6E35A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                </div>
+                <h2 class="text-2xl font-extrabold text-[#0D3B22]">Welcome Back</h2>
+                <p class="text-xs text-gray-500">Sign in to continue to Fresho</p>
+              </div>
+
+              <!-- Role Tabs -->
+              <div class="flex bg-gray-200/60 p-1 rounded-xl mb-4 text-xs font-bold text-gray-600">
+                <button class="flex-1 py-2 rounded-lg bg-white text-[#17703A] shadow-sm">Customer</button>
+                <button class="flex-1 py-2 rounded-lg">Farmer</button>
+                <button class="flex-1 py-2 rounded-lg">Admin</button>
+              </div>
+
+              <div class="space-y-3">
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 mb-1 block">EMAIL OR PHONE</label>
+                  <input type="text" class="fresho-input" value="rahul.sharma@example.in">
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="text-[11px] font-bold text-gray-600">PASSWORD</label>
+                    <span class="text-[11px] text-[#17703A] font-bold cursor-pointer">Forgot?</span>
+                  </div>
+                  <input type="password" class="fresho-input" value="••••••••••••">
+                </div>
+              </div>
+
+              <button class="btn-fresho-primary btn-shine mt-5">Sign In</button>
+
+              <div class="relative my-5 text-center">
+                <hr class="border-gray-200">
+                <span class="bg-[#F6F9F2] px-3 text-[11px] text-gray-400 font-bold absolute -top-2 left-1/2 -translate-x-1/2">OR CONTINUE WITH</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <button class="fresho-card py-2.5 flex items-center justify-center font-bold text-xs text-gray-700">Google</button>
+                <button class="fresho-card py-2.5 flex items-center justify-center font-bold text-xs text-gray-700">Apple</button>
+              </div>
+            </div>
+
+            <p class="text-center text-xs text-gray-500 mt-4">Don't have an account? <span class="text-[#17703A] font-bold cursor-pointer">Sign Up</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 5: CUSTOMER HOME
+      ========================================== -->
+      <div class="screen-card customer" data-category="customer">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 05. Customer Home
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-4 space-y-4">
+
+            <!-- Top Header -->
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs text-gray-500 font-medium">Namaste,</p>
+                <h3 class="font-extrabold text-base text-[#0D3B22] flex items-center gap-1">
+                  Rahul Sharma <span class="text-xs text-[#17703A] font-normal">📍 Vadodara</span>
+                </h3>
+              </div>
+              <div class="w-9 h-9 rounded-full bg-emerald-100 border border-[#17703A] flex items-center justify-center font-bold text-xs text-[#17703A]">RS</div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative">
+              <input type="text" placeholder="Search tomatoes, spinach, milk..." class="fresho-input pl-10 text-xs">
+              <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+
+            <!-- Promo Banner -->
+            <div class="bg-gradient-to-r from-[#17703A] to-[#0D3B22] text-white p-4 rounded-2xl relative overflow-hidden shadow-md">
+              <span class="bg-[#C6E35A] text-[#0D3B22] text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Direct Harvest</span>
+              <h4 class="font-extrabold text-sm mt-1">20% Off Anand Veggies</h4>
+              <p class="text-[11px] text-emerald-200 mt-0.5">Fresh green leaf produce harvested today</p>
+            </div>
+
+            <!-- Category Circles -->
+            <div>
+              <h4 class="font-extrabold text-xs text-[#0D3B22] mb-2">Categories</h4>
+              <div class="grid grid-cols-4 gap-2 text-center">
+                <div class="flex flex-col items-center">
+                  <div class="w-13 h-13 rounded-2xl bg-[#DCFCE7] p-2.5 border border-[#17703A] flex items-center justify-center mb-1">
+                    <svg class="w-7 h-7 text-[#17703A]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                  </div>
+                  <span class="text-[11px] font-bold text-[#17703A]">Vegetables</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-13 h-13 rounded-2xl bg-amber-50 p-2.5 border border-amber-200 flex items-center justify-center mb-1">
+                    <circle cx="12" cy="12" r="8" fill="#F4A62A" opacity="0.3"/>
+                    <path d="M12 4 C16 4, 18 8, 18 12 C18 16, 14 20, 10 20 C6 20, 6 16, 6 12 Z" fill="#F4A62A"/>
+                  </div>
+                  <span class="text-[11px] font-medium text-gray-600">Fruits</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-13 h-13 rounded-2xl bg-blue-50 p-2.5 border border-blue-200 flex items-center justify-center mb-1">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.18.125l-.26.11a2 2 0 00-1.16 1.802V19a2 2 0 002 2h14a2 2 0 002-2v-1.758a2 2 0 00-1.16-1.802l-.256-.112z"></path></svg>
+                  </div>
+                  <span class="text-[11px] font-medium text-gray-600">Dairy</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <div class="w-13 h-13 rounded-2xl bg-orange-50 p-2.5 border border-orange-200 flex items-center justify-center mb-1">
+                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                  </div>
+                  <span class="text-[11px] font-medium text-gray-600">Grains</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Best Farmers Row -->
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="font-extrabold text-xs text-[#0D3B22]">Best Local Farmers</h4>
+                <span class="text-[10px] text-[#17703A] font-bold">View All</span>
+              </div>
+              <div class="flex space-x-3 overflow-x-auto pb-1">
+                <div class="fresho-card min-w-[120px] p-2.5 text-center flex-shrink-0">
+                  <div class="w-10 h-10 rounded-full bg-emerald-700 text-white font-bold text-xs mx-auto flex items-center justify-center mb-1">RP</div>
+                  <p class="font-bold text-[11px] text-[#0D3B22]">Ramesh Patel</p>
+                  <p class="text-[9px] text-gray-500">Anand • ★ 4.9</p>
+                </div>
+                <div class="fresho-card min-w-[120px] p-2.5 text-center flex-shrink-0">
+                  <div class="w-10 h-10 rounded-full bg-amber-600 text-white font-bold text-xs mx-auto flex items-center justify-center mb-1">SK</div>
+                  <p class="font-bold text-[11px] text-[#0D3B22]">Suresh Kumar</p>
+                  <p class="text-[9px] text-gray-500">Surat • ★ 4.8</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product Cards -->
+            <div>
+              <h4 class="font-extrabold text-xs text-[#0D3B22] mb-2">Fresh Harvest</h4>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="fresho-card p-3 relative">
+                  <span class="bg-red-100 text-red-700 text-[9px] font-bold px-1.5 py-0.5 rounded absolute top-2 left-2">Fresh</span>
+                  <div class="w-20 h-20 mx-auto my-2 flex items-center justify-center">
+                    <circle cx="40" cy="40" r="30" fill="#E4572E" />
+                    <svg class="w-16 h-16" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="#E4572E"/><path d="M50 15 C45 10, 55 10, 50 15" stroke="#3E9B4F" stroke-width="4"/></svg>
+                  </div>
+                  <h5 class="font-bold text-xs text-[#0D3B22]">Organic Tomatoes</h5>
+                  <p class="text-[10px] text-gray-500">Ramesh Patel</p>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="font-extrabold text-xs text-[#17703A]">₹40 <span class="text-[9px] text-gray-400 font-normal">/kg</span></span>
+                    <button class="w-7 h-7 rounded-full bg-[#17703A] text-white font-bold flex items-center justify-center animate-pulse-ring">+</button>
+                  </div>
+                </div>
+
+                <div class="fresho-card p-3 relative">
+                  <div class="w-20 h-20 mx-auto my-2 flex items-center justify-center">
+                    <svg class="w-16 h-16" viewBox="0 0 100 100"><path d="M30 70 C20 40 80 40 70 70 C60 90 40 90 30 70 Z" fill="#3E9B4F"/><path d="M50 30 L50 70" stroke="#0D3B22" stroke-width="2"/></svg>
+                  </div>
+                  <h5 class="font-bold text-xs text-[#0D3B22]">Fresh Spinach</h5>
+                  <p class="text-[10px] text-gray-500">Suresh Kumar</p>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="font-extrabold text-xs text-[#17703A]">₹25 <span class="text-[9px] text-gray-400 font-normal">/bunch</span></span>
+                    <button class="w-7 h-7 rounded-full bg-[#17703A] text-white font-bold flex items-center justify-center">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Nav Bar -->
+            <div class="mt-auto bg-white border-t border-gray-200 -mx-4 -mb-4 px-6 py-2 flex justify-between items-center text-[10px] font-bold text-gray-400">
+              <div class="text-[#17703A] flex flex-col items-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 00-1 1m-6 0h6"></path></svg>
+                <span>Home</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <span>Explore</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <span>Orders</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <span>Profile</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 6: PRODUCT DETAILS
+      ========================================== -->
+      <div class="screen-card customer" data-category="customer">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 06. Product Details
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-0 justify-between">
+            <div>
+              <!-- Image Preview Hero with Rotating Ring -->
+              <div class="bg-emerald-100/50 p-6 relative flex items-center justify-center overflow-hidden h-64">
+                <!-- Rotating Dashed Ring -->
+                <div class="absolute w-48 h-48 border-2 border-dashed border-[#17703A]/30 rounded-full animate-rotate-dashed"></div>
+                <svg class="w-36 h-36 z-10 drop-shadow-xl" viewBox="0 0 100 100">
+                  <circle cx="50" cy="55" r="38" fill="#E4572E"/>
+                  <path d="M50 17 C42 10, 58 10, 50 17" stroke="#3E9B4F" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M50 17 C35 15, 30 25, 40 22" fill="#3E9B4F"/>
+                </svg>
+                <span class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-[#17703A] border border-[#17703A]/20">Vegetables</span>
+              </div>
+
+              <div class="p-5 space-y-4">
+                <div>
+                  <h2 class="text-xl font-extrabold text-[#0D3B22]">Fresh Organic Tomatoes</h2>
+                  <!-- Farmer Info Row -->
+                  <div class="flex items-center space-x-2 mt-2">
+                    <div class="w-7 h-7 rounded-full bg-emerald-700 text-white font-bold text-[10px] flex items-center justify-center">RP</div>
+                    <span class="text-xs font-bold text-gray-700">Ramesh Patel</span>
+                    <span class="text-xs text-amber-500 font-bold">★ 4.9 (128 reviews)</span>
+                  </div>
+                </div>
+
+                <div class="flex items-baseline justify-between">
+                  <div>
+                    <span class="text-2xl font-extrabold text-[#17703A]">₹40</span>
+                    <span class="text-xs text-gray-400">/ kg</span>
+                  </div>
+                  <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">In Stock (45 kg left)</span>
+                </div>
+
+                <!-- Stock Progress Bar -->
+                <div>
+                  <div class="flex justify-between text-[11px] font-bold text-gray-500 mb-1">
+                    <span>Stock Level</span>
+                    <span>75% Remaining</span>
+                  </div>
+                  <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-[#17703A] rounded-full" style="width: 75%;"></div>
+                  </div>
+                </div>
+
+                <!-- Quantity Chips -->
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 block mb-2">SELECT QUANTITY</label>
+                  <div class="grid grid-cols-4 gap-2 text-xs font-bold">
+                    <button class="py-2 rounded-xl border border-gray-200 text-gray-600">500 g</button>
+                    <button class="py-2 rounded-xl border-2 border-[#17703A] bg-emerald-50 text-[#17703A]">1 kg</button>
+                    <button class="py-2 rounded-xl border border-gray-200 text-gray-600">2 kg</button>
+                    <button class="py-2 rounded-xl border border-gray-200 text-gray-600">5 kg</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sticky Add To Cart -->
+            <div class="p-4 bg-white border-t border-gray-100">
+              <button class="btn-fresho-primary btn-shine flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <span>Add to Cart • ₹40</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 7: CART
+      ========================================== -->
+      <div class="screen-card customer" data-category="customer">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 07. Cart
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-4 justify-between">
+            <div class="space-y-4">
+              <h2 class="text-xl font-extrabold text-[#0D3B22] mt-2">My Produce Basket</h2>
+
+              <!-- Cart Items -->
+              <div class="space-y-3">
+                <div class="fresho-card p-3 flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center">
+                      <circle cx="12" cy="12" r="8" fill="#E4572E"/>
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-xs text-[#0D3B22]">Organic Tomatoes</h4>
+                      <p class="text-[10px] text-gray-400">1 kg • ₹40</p>
+                    </div>
+                  </div>
+                  <!-- Quantity Stepper -->
+                  <div class="flex items-center space-x-2 bg-gray-100 px-2 py-1 rounded-lg text-xs font-bold">
+                    <button class="text-gray-500 px-1">-</button>
+                    <span>1</span>
+                    <button class="text-[#17703A] px-1">+</button>
+                  </div>
+                </div>
+
+                <div class="fresho-card p-3 flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                      <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.18.125l-.26.11a2 2 0 00-1.16 1.802V19a2 2 0 002 2h14a2 2 0 002-2v-1.758a2 2 0 00-1.16-1.802l-.256-.112z"></path></svg>
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-xs text-[#0D3B22]">Farm Dairy Milk</h4>
+                      <p class="text-[10px] text-gray-400">2 Litres • ₹80</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-2 bg-gray-100 px-2 py-1 rounded-lg text-xs font-bold">
+                    <button class="text-gray-500 px-1">-</button>
+                    <span>2</span>
+                    <button class="text-[#17703A] px-1">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Coupon Row -->
+              <div class="flex space-x-2">
+                <input type="text" placeholder="Promo code (e.g. FRESH15)" class="fresho-input text-xs flex-1 uppercase">
+                <button class="px-4 bg-[#0D3B22] text-white text-xs font-bold rounded-xl">Apply</button>
+              </div>
+
+              <!-- Price Breakdown -->
+              <div class="fresho-card p-3 space-y-2 text-xs">
+                <div class="flex justify-between text-gray-500">
+                  <span>Subtotal</span>
+                  <span class="font-bold text-gray-800">₹120</span>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                  <span>Delivery Charge</span>
+                  <span class="font-bold text-gray-800">₹20</span>
+                </div>
+                <div class="flex justify-between text-emerald-700">
+                  <span>Farmer Direct Discount</span>
+                  <span class="font-bold">-₹15</span>
+                </div>
+                <hr class="border-gray-100 my-1">
+                <div class="flex justify-between font-extrabold text-sm text-[#0D3B22]">
+                  <span>Total Amount</span>
+                  <span class="text-[#17703A]">₹125</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-fresho-primary btn-shine mt-4">Proceed to Checkout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 8: CHECKOUT
+      ========================================== -->
+      <div class="screen-card customer" data-category="customer">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 08. Checkout
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-4 justify-between">
+            <div class="space-y-4">
+              <h2 class="text-xl font-extrabold text-[#0D3B22] mt-2">Checkout</h2>
+
+              <!-- 3-Step Progress -->
+              <div class="flex items-center justify-between text-[10px] font-bold px-2">
+                <div class="flex items-center space-x-1 text-[#17703A]">
+                  <span class="w-5 h-5 rounded-full bg-[#17703A] text-white flex items-center justify-center">1</span>
+                  <span>Address</span>
+                </div>
+                <div class="h-0.5 w-8 bg-gray-300"></div>
+                <div class="flex items-center space-x-1 text-gray-400">
+                  <span class="w-5 h-5 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center">2</span>
+                  <span>Payment</span>
+                </div>
+                <div class="h-0.5 w-8 bg-gray-300"></div>
+                <div class="flex items-center space-x-1 text-gray-400">
+                  <span class="w-5 h-5 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center">3</span>
+                  <span>Review</span>
+                </div>
+              </div>
+
+              <!-- Delivery Address Selection -->
+              <div>
+                <label class="text-[11px] font-bold text-gray-600 block mb-2">DELIVERY ADDRESS</label>
+                <div class="fresho-card border-2 border-[#17703A] bg-emerald-50/40 p-3 space-y-1 relative">
+                  <span class="bg-[#17703A] text-white text-[9px] font-bold px-2 py-0.5 rounded-full absolute top-2 right-2">Home</span>
+                  <p class="font-extrabold text-xs text-[#0D3B22]">Rahul Sharma</p>
+                  <p class="text-[11px] text-gray-500">102, Green Acres Society, Alkapuri, Vadodara - 390007</p>
+                  <p class="text-[11px] text-gray-500">+91 98765 43210</p>
+                </div>
+              </div>
+
+              <!-- Payment Method Selection -->
+              <div>
+                <label class="text-[11px] font-bold text-gray-600 block mb-2">PAYMENT METHOD</label>
+                <div class="space-y-2">
+                  <div class="fresho-card p-3 flex items-center justify-between border-2 border-[#17703A]">
+                    <div class="flex items-center space-x-2">
+                      <span class="font-extrabold text-xs text-[#17703A]">UPI</span>
+                      <span class="text-[11px] text-gray-600">Google Pay / PhonePe / Paytm</span>
+                    </div>
+                    <div class="w-4 h-4 rounded-full bg-[#17703A]"></div>
+                  </div>
+                  <div class="fresho-card p-3 flex items-center justify-between">
+                    <span class="font-bold text-xs text-gray-700">Cash on Delivery (COD)</span>
+                    <div class="w-4 h-4 rounded-full border border-gray-300"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-fresho-primary btn-shine">Place Order • ₹125</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 9: ORDER TRACKING
+      ========================================== -->
+      <div class="screen-card customer" data-category="customer">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 09. Order Tracking
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-4 space-y-4">
+            <h2 class="text-xl font-extrabold text-[#0D3B22] mt-2">Track Delivery</h2>
+
+            <!-- ETA Card with Moving Truck -->
+            <div class="fresho-card bg-gradient-to-r from-[#17703A] to-[#0D3B22] text-white p-4 relative overflow-hidden">
+              <p class="text-[10px] text-emerald-200 font-bold uppercase">Estimated Arrival</p>
+              <h3 class="text-xl font-extrabold mt-0.5">Today by 5:00 PM</h3>
+
+              <!-- Moving Delivery Truck Animation -->
+              <div class="mt-4 relative h-10 border-b border-dashed border-emerald-400/40">
+                <div class="absolute bottom-1 left-0 animate-truck-move">
+                  <svg class="w-8 h-8 text-[#C6E35A]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vertical Timeline -->
+            <div class="fresho-card p-4 space-y-4">
+              <!-- Step 1 -->
+              <div class="flex items-start space-x-3">
+                <div class="w-6 h-6 rounded-full bg-[#17703A] text-white text-xs font-bold flex items-center justify-center">✓</div>
+                <div>
+                  <h4 class="font-bold text-xs text-[#0D3B22]">Order Placed</h4>
+                  <p class="text-[10px] text-gray-400">10:30 AM • Order #FSH-8842</p>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="flex items-start space-x-3">
+                <div class="w-6 h-6 rounded-full bg-[#17703A] text-white text-xs font-bold flex items-center justify-center">✓</div>
+                <div>
+                  <h4 class="font-bold text-xs text-[#0D3B22]">Confirmed by Farmer</h4>
+                  <p class="text-[10px] text-gray-400">10:45 AM • Ramesh Patel</p>
+                </div>
+              </div>
+
+              <!-- Step 3 (Current Pulsing) -->
+              <div class="flex items-start space-x-3">
+                <div class="w-6 h-6 rounded-full bg-[#C6E35A] text-[#0D3B22] text-xs font-extrabold flex items-center justify-center animate-pulse-ring">3</div>
+                <div>
+                  <h4 class="font-extrabold text-xs text-[#17703A]">Out for Delivery</h4>
+                  <p class="text-[10px] text-gray-500">In transit from Anand farm</p>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="flex items-start space-x-3 opacity-40">
+                <div class="w-6 h-6 rounded-full bg-gray-200 text-gray-500 text-xs font-bold flex items-center justify-center">4</div>
+                <div>
+                  <h4 class="font-bold text-xs text-gray-600">Delivered</h4>
+                  <p class="text-[10px] text-gray-400">Pending</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message Farmer Card -->
+            <div class="fresho-card p-3 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-emerald-700 text-white font-bold text-xs flex items-center justify-center">RP</div>
+                <div>
+                  <p class="font-bold text-xs text-[#0D3B22]">Ramesh Patel</p>
+                  <p class="text-[10px] text-gray-400">Farmer Contact</p>
+                </div>
+              </div>
+              <button class="px-3 py-1.5 bg-emerald-100 text-[#17703A] font-bold text-xs rounded-lg">Call Farmer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 10: FARMER DASHBOARD
+      ========================================== -->
+      <div class="screen-card farmer" data-category="farmer">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 10. Farmer Dashboard
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-4 space-y-4">
+            <!-- Greeting Header -->
+            <div class="flex justify-between items-center mt-2">
+              <div>
+                <p class="text-xs text-gray-500 font-medium">Welcome Back,</p>
+                <h3 class="font-extrabold text-base text-[#0D3B22]">Ramesh Patel 🧑‍🌾</h3>
+              </div>
+              <span class="pill-delivered">Verified Farmer</span>
+            </div>
+
+            <!-- Quick Metric Tiles -->
+            <div class="grid grid-cols-3 gap-2">
+              <div class="fresho-card p-2.5 text-center">
+                <p class="text-[10px] text-gray-400 font-bold">EARNINGS</p>
+                <p class="font-extrabold text-sm text-[#17703A]">₹14,250</p>
+              </div>
+              <div class="fresho-card p-2.5 text-center">
+                <p class="text-[10px] text-gray-400 font-bold">PENDING</p>
+                <p class="font-extrabold text-sm text-amber-600">12 Orders</p>
+              </div>
+              <div class="fresho-card p-2.5 text-center">
+                <p class="text-[10px] text-gray-400 font-bold">PRODUCTS</p>
+                <p class="font-extrabold text-sm text-[#0D3B22]">18 Active</p>
+              </div>
+            </div>
+
+            <!-- Weekly Earnings CSS Bar Chart -->
+            <div class="fresho-card p-3">
+              <h4 class="font-bold text-xs text-[#0D3B22] mb-3">Weekly Sales Revenue</h4>
+              <div class="flex items-end justify-between h-28 pt-4 px-2 border-b border-gray-100">
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-5 bg-emerald-200 rounded-t animate-bar-grow h-12"></div>
+                  <span class="text-[9px] text-gray-400 font-bold">M</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-5 bg-emerald-200 rounded-t animate-bar-grow h-16"></div>
+                  <span class="text-[9px] text-gray-400 font-bold">T</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-5 bg-emerald-200 rounded-t animate-bar-grow h-10"></div>
+                  <span class="text-[9px] text-gray-400 font-bold">W</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-5 bg-emerald-300 rounded-t animate-bar-grow h-20"></div>
+                  <span class="text-[9px] text-gray-400 font-bold">T</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-5 bg-[#17703A] rounded-t animate-bar-grow h-24"></div>
+                  <span class="text-[9px] text-[#17703A] font-extrabold">F</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-5 bg-emerald-200 rounded-t animate-bar-grow h-14"></div>
+                  <span class="text-[9px] text-gray-400 font-bold">S</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                  <div class="w-5 bg-emerald-200 rounded-t animate-bar-grow h-8"></div>
+                  <span class="text-[9px] text-gray-400 font-bold">S</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Orders List -->
+            <div>
+              <h4 class="font-bold text-xs text-[#0D3B22] mb-2">Recent Orders</h4>
+              <div class="space-y-2">
+                <div class="fresho-card p-3 flex items-center justify-between">
+                  <div>
+                    <p class="font-bold text-xs text-[#0D3B22]">Rahul S. • Organic Tomatoes</p>
+                    <p class="text-[10px] text-gray-400">2 kg • ₹80</p>
+                  </div>
+                  <span class="pill-pending">Pending</span>
+                </div>
+                <div class="fresho-card p-3 flex items-center justify-between">
+                  <div>
+                    <p class="font-bold text-xs text-[#0D3B22]">Priya M. • Fresh Spinach</p>
+                    <p class="text-[10px] text-gray-400">3 bunches • ₹75</p>
+                  </div>
+                  <span class="pill-confirmed">Confirmed</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 11: ADD PRODUCT (FARMER)
+      ========================================== -->
+      <div class="screen-card farmer" data-category="farmer">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 11. Add Product
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-4 justify-between">
+            <div class="space-y-3">
+              <h2 class="text-xl font-extrabold text-[#0D3B22] mt-2">Add Harvest Product</h2>
+
+              <!-- Image Upload Box -->
+              <div class="border-2 border-dashed border-[#17703A]/40 bg-emerald-50/50 rounded-2xl p-6 text-center cursor-pointer">
+                <svg class="w-8 h-8 text-[#17703A] mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <p class="text-xs font-bold text-[#17703A]">Upload Crop Photo</p>
+                <p class="text-[10px] text-gray-400">PNG, JPG up to 5MB</p>
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-gray-600 mb-1 block">PRODUCT NAME</label>
+                <input type="text" class="fresho-input" value="Organic Fresh Carrots">
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 mb-1 block">CATEGORY</label>
+                  <select class="fresho-input text-xs font-bold text-[#0D3B22]">
+                    <option>Vegetables</option>
+                    <option>Fruits</option>
+                    <option>Dairy</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[11px] font-bold text-gray-600 mb-1 block">PRICE PER KG (₹)</label>
+                  <input type="number" class="fresho-input" value="50">
+                </div>
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-gray-600 mb-1 block">AVAILABLE STOCK (KG)</label>
+                <input type="number" class="fresho-input" value="100">
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-gray-600 mb-1 block">HARVEST DESCRIPTION</label>
+                <textarea class="fresho-input h-16 pt-2 text-xs" resize="none">Naturally harvested red carrots, chemical-free from Anand farm.</textarea>
+              </div>
+            </div>
+
+            <button class="btn-fresho-primary btn-shine mt-4">Save & Publish Product</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           SCREEN 12: ADMIN DASHBOARD
+      ========================================== -->
+      <div class="screen-card admin" data-category="admin">
+        <div class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#C6E35A]"></span> 12. Admin Dashboard
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="status-bar"><span>9:41</span><span>5G</span></div>
+          <div class="phone-screen-content p-4 space-y-4">
+            <div class="mt-2 flex justify-between items-center">
+              <div>
+                <p class="text-xs text-gray-500">Marketplace Admin</p>
+                <h3 class="font-extrabold text-base text-[#0D3B22]">Fresho Overview</h3>
+              </div>
+              <span class="text-xs font-bold px-2 py-1 bg-slate-200 text-slate-800 rounded-lg">Admin</span>
+            </div>
+
+            <!-- Stat Metric Tiles -->
+            <div class="grid grid-cols-2 gap-2">
+              <div class="fresho-card p-3">
+                <p class="text-[10px] text-gray-400 font-bold">TOTAL USERS</p>
+                <p class="font-extrabold text-lg text-[#0D3B22]">1,240</p>
+              </div>
+              <div class="fresho-card p-3">
+                <p class="text-[10px] text-gray-400 font-bold">VERIFIED FARMERS</p>
+                <p class="font-extrabold text-lg text-[#17703A]">86</p>
+              </div>
+              <div class="fresho-card p-3">
+                <p class="text-[10px] text-gray-400 font-bold">ACTIVE PRODUCTS</p>
+                <p class="font-extrabold text-lg text-[#0D3B22]">340</p>
+              </div>
+              <div class="fresho-card p-3">
+                <p class="text-[10px] text-gray-400 font-bold">TOTAL ORDERS</p>
+                <p class="font-extrabold text-lg text-amber-600">4,890</p>
+              </div>
+            </div>
+
+            <!-- Verification Queue -->
+            <div>
+              <h4 class="font-bold text-xs text-[#0D3B22] mb-2">Farmer Verifications</h4>
+              <div class="space-y-2">
+                <div class="fresho-card p-3 flex items-center justify-between">
+                  <div>
+                    <p class="font-bold text-xs text-[#0D3B22]">Suresh Kumar</p>
+                    <p class="text-[10px] text-gray-400">Anand District • Land ID #8841</p>
+                  </div>
+                  <button class="px-2.5 py-1 bg-[#17703A] text-white text-[10px] font-bold rounded-lg">Verify</button>
+                </div>
+                <div class="fresho-card p-3 flex items-center justify-between">
+                  <div>
+                    <p class="font-bold text-xs text-[#0D3B22]">Hitesh Shah</p>
+                    <p class="text-[10px] text-gray-400">Surat Region • Land ID #9923</p>
+                  </div>
+                  <span class="pill-delivered">Verified</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- DESIGN SYSTEM DOCUMENTATION & ANGULARJS ROUTE MAP SECTION -->
+  <section class="max-w-7xl mx-auto mt-20 px-6 border-t border-[#1e3b2b] pt-12 text-white">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-extrabold tracking-tight">Design System & Architecture Guidelines</h2>
+      <p class="text-sm text-emerald-400 mt-1">Full specification for college project implementation (AngularJS + Express REST API)</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <!-- COLOR TOKENS TABLE -->
+      <div class="bg-[#12251a] p-6 rounded-2xl border border-[#234530]">
+        <h3 class="text-lg font-bold text-[#C6E35A] mb-4 flex items-center gap-2">
+          <span>🎨</span> Color Palette Tokens
+        </h3>
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Primary Forest Green</span>
+            <span class="font-mono text-emerald-400">#17703A</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Dark Green</span>
+            <span class="font-mono text-emerald-400">#0D3B22</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Fresh Lime Accent</span>
+            <span class="font-mono text-emerald-400">#C6E35A</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Page Background</span>
+            <span class="font-mono text-emerald-400">#F6F9F2</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Tomato Red</span>
+            <span class="font-mono text-emerald-400">#E4572E</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TYPOGRAPHY SCALE -->
+      <div class="bg-[#12251a] p-6 rounded-2xl border border-[#234530]">
+        <h3 class="text-lg font-bold text-[#C6E35A] mb-4 flex items-center gap-2">
+          <span>✍️</span> Typography Scale (Plus Jakarta Sans)
+        </h3>
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Display Headings</span>
+            <span class="text-emerald-400">800 weight, 24px - 32px</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Card Titles</span>
+            <span class="text-emerald-400">700 weight, 14px - 16px</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Body Text</span>
+            <span class="text-emerald-400">400 - 500 weight, 12px - 14px</span>
+          </div>
+          <div class="flex justify-between p-2 rounded bg-[#173824]">
+            <span class="font-bold">Captions & Tags</span>
+            <span class="text-emerald-400">700 weight, 10px - 11px</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANGULARJS PAGE ROUTE MAP TABLE -->
+    <div class="bg-[#12251a] p-6 rounded-2xl border border-[#234530]">
+      <h3 class="text-lg font-bold text-[#C6E35A] mb-4 flex items-center gap-2">
+        <span>🗺️</span> AngularJS App Route Map & API Specifications
+      </h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-[#234530] text-emerald-400">
+              <th class="p-3">Route Path</th>
+              <th class="p-3">View Template</th>
+              <th class="p-3">AngularJS Controller</th>
+              <th class="p-3">Express API Endpoint</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#1e3b2b] text-gray-300">
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/splash</td><td class="p-3">splash.html</td><td class="p-3">SplashCtrl</td><td class="p-3 font-mono">N/A</td></tr>
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/login</td><td class="p-3">login.html</td><td class="p-3">AuthCtrl</td><td class="p-3 font-mono">POST /api/auth/login</td></tr>
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/home</td><td class="p-3">home.html</td><td class="p-3">CustomerHomeCtrl</td><td class="p-3 font-mono">GET /api/products/featured</td></tr>
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/product/:id</td><td class="p-3">product-detail.html</td><td class="p-3">ProductDetailCtrl</td><td class="p-3 font-mono">GET /api/products/:id</td></tr>
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/cart</td><td class="p-3">cart.html</td><td class="p-3">CartCtrl</td><td class="p-3 font-mono">POST /api/cart/checkout</td></tr>
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/orders/:id</td><td class="p-3">order-track.html</td><td class="p-3">OrderTrackCtrl</td><td class="p-3 font-mono">GET /api/orders/:id/status</td></tr>
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/farmer/dashboard</td><td class="p-3">farmer-dash.html</td><td class="p-3">FarmerDashCtrl</td><td class="p-3 font-mono">GET /api/farmer/stats</td></tr>
+            <tr><td class="p-3 font-mono text-[#C6E35A]">/admin/dashboard</td><td class="p-3">admin-dash.html</td><td class="p-3">AdminDashCtrl</td><td class="p-3 font-mono">GET /api/admin/overview</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULL SCREEN PREVIEW MODAL -->
+  <div id="preview-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4" onclick="closeModal()">
+    <div class="bg-[#12251a] p-6 rounded-3xl border border-[#234530] text-white max-w-sm w-full text-center" onclick="event.stopPropagation()">
+      <h3 id="modal-title" class="text-xl font-extrabold text-[#C6E35A] mb-2">Screen Title</h3>
+      <p class="text-xs text-gray-300 mb-6">Interactive preview mode activated. Use escape or click outside to dismiss.</p>
+      <button onclick="closeModal()" class="btn-fresho-primary bg-[#17703A]">Close Preview</button>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE JS LOGIC -->
+  <script>
+    // FILTER SCREENS BY CATEGORY
+    function filterScreens(category) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active', 'bg-[#17703A]', 'text-white'));
+      event.target.classList.add('active', 'bg-[#17703A]', 'text-white');
+
+      const cards = document.querySelectorAll('.screen-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // MODAL LOGIC
+    function openModal(title) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('preview-modal').classList.remove('hidden');
+      document.getElementById('preview-modal').classList.add('flex');
+    }
+    function closeModal() {
+      document.getElementById('preview-modal').classList.add('hidden');
+      document.getElementById('preview-modal').classList.remove('flex');
+    }
+  </script>
+
+</body>
+</html>
