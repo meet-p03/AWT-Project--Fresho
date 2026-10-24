@@ -6,39 +6,558 @@
 <title>Fresho — Local Farmer Marketplace UI</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-:root{--green:#17703A;--deep:#0D3B22;--lime:#C6E35A;--bg:#F6F9F2;--line:#E3EADB;--ink:#18291D;--muted:#718071;--tomato:#E4572E;--mango:#F4A62A;--leaf:#3E9B4F;--potato:#C9A06A;--pending-bg:#FFF1D4;--pending:#7A4A00;--confirmed-bg:#E1F0FF;--confirmed:#164D82;--shipped-bg:#F0E5FF;--shipped:#57358A;--delivered-bg:#DDF4E2;--delivered:#145B2A;--cancelled-bg:#FFE3DF;--cancelled:#8A281C}
-*{box-sizing:border-box}body{margin:0;background:#e9eee5;color:var(--ink);font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:12px}button,input,textarea,select{font:inherit}button{cursor:pointer}.board-head{max-width:1740px;margin:auto;padding:28px 32px 18px;display:flex;justify-content:space-between;align-items:end;gap:16px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--green);font-weight:800}.board-head h1{font-size:30px;line-height:1.1;margin:7px 0 5px;letter-spacing:-1.2px}.board-head p{margin:0;color:#60705f;font-size:13px}.board-meta{border:1px solid #d6dfd0;background:#f8faf6;border-radius:999px;padding:10px 14px;color:#47604a;font-weight:700;white-space:nowrap}.screen-grid{max-width:1740px;margin:auto;padding:12px 32px 44px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 22px}.screen-wrap{min-width:0}.screen-label{font-size:12px;font-weight:800;letter-spacing:.2px;margin:0 0 9px 4px;color:#3d5140;display:flex;justify-content:space-between}.screen-label span{font-weight:600;color:#7b8979}.phone{width:100%;max-width:390px;aspect-ratio:390/844;height:auto;min-height:0;margin:auto;background:var(--bg);border:1px solid #dce4d7;border-radius:29px;overflow:hidden;position:relative;box-shadow:0 12px 32px #17351c13;display:flex;flex-direction:column}.phone:before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:58px;height:4px;border-radius:4px;background:#d8dfd3;z-index:4}.phone-content{padding:24px 17px 76px;overflow:hidden;flex:1;position:relative}.phone h2{font-size:21px;line-height:1.18;letter-spacing:-.8px;margin:4px 0 7px;font-weight:800}.phone h3{font-size:13px;margin:0;font-weight:800;letter-spacing:-.2px}.muted{color:var(--muted)}.tiny{font-size:10px}.small{font-size:11px}.row{display:flex;align-items:center;gap:9px}.between{display:flex;align-items:center;justify-content:space-between;gap:8px}.stack{display:flex;flex-direction:column;gap:12px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}.btn{height:48px;border:0;border-radius:999px;background:var(--green);color:#fff;font-weight:800;font-size:12px;padding:0 18px;position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}.btn.full{width:100%}.btn.light{background:#eaf3e6;color:var(--deep)}.btn.outline{background:#fff;border:1px solid var(--line);color:var(--deep)}.btn:after{content:"";position:absolute;top:-40%;left:-45%;height:180%;width:28%;background:linear-gradient(90deg,transparent,#ffffff66,transparent);transform:rotate(25deg);animation:shine 3.4s ease-in-out infinite}.btn:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid #8cbf59;outline-offset:2px}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:11px;font-weight:800;color:#304b36}.field input,.field textarea,.field select{width:100%;height:43px;border:1px solid #dfe7d9;background:#fff;border-radius:12px;padding:0 12px;color:var(--ink);outline:none}.field textarea{height:67px;padding:10px;resize:none}.tabs{display:flex;background:#eaf0e5;border-radius:999px;padding:4px;gap:3px;margin:14px 0}.tabs button{flex:1;border:0;background:transparent;color:#637361;border-radius:999px;height:32px;font-weight:700;font-size:10px}.tabs button.active{background:#fff;color:var(--green);box-shadow:0 2px 6px #17351c0d}.tag{font-size:9px;font-weight:800;border-radius:999px;padding:5px 8px;display:inline-flex;align-items:center;white-space:nowrap}.tag.green{background:var(--delivered-bg);color:var(--delivered)}.tag.pending{background:var(--pending-bg);color:var(--pending)}.tag.confirmed{background:var(--confirmed-bg);color:var(--confirmed)}.tag.shipped{background:var(--shipped-bg);color:var(--shipped)}.tag.cancelled{background:var(--cancelled-bg);color:var(--cancelled)}.tag.neutral{background:#edf2e9;color:#526550}.section-head{display:flex;align-items:center;justify-content:space-between;margin:16px 0 10px}.section-head a{color:var(--green);font-weight:800;text-decoration:none;font-size:10px}.nav{position:absolute;bottom:0;left:0;right:0;height:61px;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;padding:0 7px;z-index:3}.nav a{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#829080;font-size:9px;font-weight:700;min-width:50px}.nav a.active{color:var(--green)}.nav .glyph{font-size:16px;line-height:1}.search{height:40px;border:1px solid var(--line);background:#fff;border-radius:12px;display:flex;align-items:center;gap:8px;padding:0 12px;color:#849181}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#e6f0d9;color:var(--green);font-weight:800;flex-shrink:0}.avatar.orange{background:#ffead2;color:#92551a}.avatar.rose{background:#fbe4dc;color:#9b4a34}.avatar.blue{background:#e0ecf7;color:#315b7d}.produce{width:100%;height:100%;display:block}.produce-box{height:94px;border-radius:15px;background:#f2f6e9;display:grid;place-items:center;position:relative;overflow:hidden}.produce-box svg{width:95px;height:82px;animation:float 4s ease-in-out infinite}.produce-box svg:nth-child(2){animation-delay:-1.2s}.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.product-card{padding:8px;border-radius:15px;background:#fff;border:1px solid var(--line);min-width:0}.product-card .produce-box{height:92px}.product-card h3{margin:8px 0 4px;font-size:11px}.price{font-weight:800;font-size:13px;color:var(--deep)}.add{width:29px;height:29px;border:0;border-radius:50%;background:var(--green);color:white;font-size:20px;line-height:1;box-shadow:0 0 0 0 #17703a40;animation:ring 2.8s infinite}.promo{background:var(--deep);color:#fff;border-radius:18px;padding:15px;display:flex;align-items:center;justify-content:space-between;gap:5px;overflow:hidden;position:relative}.promo strong{font-size:16px;line-height:1.25;letter-spacing:-.4px}.promo small{color:#d9e9d6;display:block;margin-top:6px}.promo-art{width:85px;height:78px;flex-shrink:0;position:relative}.category-row{display:flex;justify-content:space-between;gap:5px}.category{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:9px;font-weight:700;color:#4e624f;min-width:0}.category .bubble{height:51px;width:51px;border-radius:50%;display:grid;place-items:center;background:#e9f2df}.category svg{width:38px;height:38px}.mini-farmer{display:flex;align-items:center;gap:7px;min-width:0}.mini-farmer .avatar{width:31px;height:31px}.divider{height:1px;background:#edf1e9;margin:10px 0}.stepper{display:flex;align-items:center;gap:10px;background:#f0f5e9;border-radius:999px;padding:4px}.stepper button{width:26px;height:26px;border:0;border-radius:50%;background:#fff;color:var(--green);font-weight:800}.stepper b{min-width:10px;text-align:center}.stock{height:6px;background:#e8eee2;border-radius:99px;overflow:hidden;margin-top:7px}.stock span{display:block;width:72%;height:100%;background:var(--leaf);border-radius:99px;transform-origin:left;animation:fill 1.2s .5s both}.qty{border:1px solid var(--line);border-radius:999px;padding:8px 10px;background:#fff;font-weight:700;color:#617060}.qty.active{border-color:var(--green);background:#eaf4e4;color:var(--green)}.sticky-action{position:absolute;bottom:0;left:0;right:0;padding:10px 15px;background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;z-index:2}.sticky-action .btn{flex:1}.progress{display:flex;justify-content:space-between;margin:16px 0 20px;position:relative}.progress:before{content:"";position:absolute;left:18px;right:18px;top:13px;height:2px;background:#dce6d7}.progress-step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;color:#7c897a;font-size:9px;font-weight:700}.progress-step b{height:27px;width:27px;border-radius:50%;background:#e6eddf;display:grid;place-items:center}.progress-step.active{color:var(--green)}.progress-step.active b{background:var(--green);color:#fff}.timeline{margin:17px 0 16px;padding-left:8px}.timeline-item{display:flex;gap:12px;min-height:55px;position:relative}.timeline-item:not(:last-child):before{content:"";position:absolute;left:8px;top:18px;bottom:0;width:2px;background:#dce7d7}.timeline-item.done:not(:last-child):before{background:#8abf82}.dot{width:18px;height:18px;border-radius:50%;border:4px solid #d9e7d4;background:#fff;z-index:1;flex-shrink:0}.done .dot{background:var(--green);border-color:#cfe6c8}.current .dot{border-color:#a9d49c;box-shadow:0 0 0 4px #e2f1dd;animation:ring 2s infinite}.timeline-item strong{font-size:11px}.timeline-item p{font-size:10px;color:var(--muted);margin:4px 0 0}.truck-route{height:72px;border-radius:14px;background:#f0f5e9;position:relative;overflow:hidden;margin:12px 0}.route-dots{position:absolute;left:14px;right:14px;top:37px;border-top:2px dotted #9bb99a}.truck{position:absolute;top:18px;left:12%;font-size:23px;animation:drive 5s ease-in-out infinite alternate}.chart{height:128px;display:flex;align-items:flex-end;justify-content:space-between;gap:9px;padding:15px 4px 0;border-bottom:1px solid #dfe7d8}.bar-wrap{height:100%;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}.bar{width:100%;max-width:20px;background:#c9dfbd;border-radius:6px 6px 2px 2px;transform:scaleY(0);transform-origin:bottom;animation:grow .8s cubic-bezier(.2,.8,.2,1) forwards}.bar-wrap:nth-child(2) .bar{animation-delay:.1s}.bar-wrap:nth-child(3) .bar{animation-delay:.2s}.bar-wrap:nth-child(4) .bar{animation-delay:.3s}.bar-wrap:nth-child(5) .bar{animation-delay:.4s}.bar-wrap:nth-child(6) .bar{animation-delay:.5s}.bar-wrap:nth-child(7) .bar{animation-delay:.6s}.bar.latest{background:var(--green)}.bar-wrap small{font-size:8px;color:#7c897a}.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{padding:12px;border-radius:15px;background:#fff;border:1px solid var(--line)}.stat .number{font-size:22px;font-weight:800;letter-spacing:-1px;margin:7px 0 3px}.stat .stat-icon{color:var(--green);font-size:15px}.upload{height:115px;border:1.5px dashed #b7c9ae;background:#f0f6e9;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--green);font-weight:800}.upload .plus{font-size:25px}.hero-illustration{height:250px;background:#eaf2df;position:relative;border-radius:0 0 28px 28px;overflow:hidden;display:grid;place-items:center}.hero-illustration:before{content:"";position:absolute;width:195px;height:195px;border-radius:50%;background:#d7e9b7;animation:ring 3s infinite}.crate{position:relative;width:205px;height:104px;background:repeating-linear-gradient(0deg,#b7834f 0 14px,#99653b 14px 18px);border:7px solid #98653d;border-top-width:12px;border-radius:5px;transform:perspective(250px) rotateX(-5deg);box-shadow:0 12px 20px #456b3520}.crate:before{content:"";position:absolute;left:-7px;right:-7px;top:-23px;height:20px;background:repeating-linear-gradient(90deg,#b7834f 0 22px,#8e5e38 22px 26px);border:4px solid #98653d}.crate-produce{position:absolute;bottom:72px;display:flex;align-items:end;gap:2px}.crate-produce svg{width:62px;height:76px;filter:drop-shadow(0 5px 3px #254a2020);animation:float 4s ease-in-out infinite}.crate-produce svg:nth-child(2){animation-delay:-1.4s}.crate-produce svg:nth-child(3){animation-delay:-2.2s}.leaf{position:absolute;width:55px;height:30px;background:#4d9e51;border-radius:100% 0 100% 0;transform:rotate(-25deg);animation:sway 3s ease-in-out infinite}.leaf.l1{left:28px;top:42px}.leaf.l2{right:24px;top:64px;transform:rotate(55deg);animation-delay:-1s}.splash-logo{display:flex;align-items:center;gap:9px;font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--deep)}.logo-mark{width:36px;height:36px;border-radius:12px;background:var(--green);display:grid;place-items:center;color:#fff;font-size:22px}.splash-content{padding:38px 22px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;flex:1}.splash-content .tagline{font-size:12px;color:#6c7c68;margin:9px 0 20px}.splash-content .btn{margin-top:auto;animation:pop .7s 1s both}.role-card{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fff;text-align:left;width:100%;color:var(--ink)}.role-card.selected{border:1.5px solid var(--green);background:#f1f7e9}.role-icon{height:42px;width:42px;border-radius:13px;background:#eaf3e4;display:grid;place-items:center;color:var(--green);font-size:18px}.role-card p{margin:4px 0 0;color:var(--muted);font-size:10px}.role-check{margin-left:auto;color:var(--green);font-size:17px}.auth-brand{display:flex;align-items:center;gap:7px;color:var(--deep);font-size:16px;font-weight:800;margin:15px 0 20px}.auth-brand .logo-mark{width:27px;height:27px;font-size:16px;border-radius:9px}.social-row{display:flex;gap:9px;margin-top:10px}.social-row .btn{flex:1;height:43px}.rating{color:#9a6715;font-weight:800}.address{display:flex;gap:10px;align-items:flex-start}.radio{width:16px;height:16px;border:1.5px solid #8da28a;border-radius:50%;margin-top:3px;flex-shrink:0}.radio.active{border:5px solid var(--green)}.bottom-space{height:5px}.list-row{display:flex;align-items:center;gap:10px;padding:9px 0}.list-row+.list-row{border-top:1px solid #edf1e9}.status-line{display:flex;justify-content:space-between;align-items:center;gap:7px}.mini-chart-title{margin-bottom:3px}.screen-enter{animation:fadeup .7s cubic-bezier(.2,.8,.2,1) both}.screen-wrap:nth-child(2) .phone,.screen-wrap:nth-child(2) .screen-label{animation-delay:.1s}.screen-wrap:nth-child(3) .phone,.screen-wrap:nth-child(3) .screen-label{animation-delay:.2s}.screen-wrap:nth-child(4) .phone,.screen-wrap:nth-child(4) .screen-label{animation-delay:.3s}.screen-wrap:nth-child(5) .phone,.screen-wrap:nth-child(5) .screen-label{animation-delay:.4s}.screen-wrap:nth-child(6) .phone,.screen-wrap:nth-child(6) .screen-label{animation-delay:.5s}.screen-wrap:nth-child(7) .phone,.screen-wrap:nth-child(7) .screen-label{animation-delay:.6s}.screen-wrap:nth-child(8) .phone,.screen-wrap:nth-child(8) .screen-label{animation-delay:.7s}.screen-wrap:nth-child(9) .phone,.screen-wrap:nth-child(9) .screen-label{animation-delay:.8s}.screen-wrap:nth-child(10) .phone,.screen-wrap:nth-child(10) .screen-label{animation-delay:.9s}.screen-wrap:nth-child(11) .phone,.screen-wrap:nth-child(11) .screen-label{animation-delay:1s}.screen-wrap:nth-child(12) .phone,.screen-wrap:nth-child(12) .screen-label{animation-delay:1.1s}
-@keyframes fadeup{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}@keyframes sway{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(-10deg)}}@keyframes shine{0%,65%{left:-45%}90%,100%{left:130%}}@keyframes ring{0%,100%{box-shadow:0 0 0 0 #17703a18}50%{box-shadow:0 0 0 6px #17703a08}}@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}@keyframes grow{to{transform:scaleY(1)}}@keyframes drive{from{left:10%}to{left:78%}}@keyframes pop{0%{opacity:0;transform:scale(.85)}70%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}@media(max-width:1250px){.screen-grid{grid-template-columns:repeat(3,minmax(0,1fr));padding:12px 20px 35px;gap:22px 16px}.board-head{padding:22px 20px 14px}}@media(max-width:900px){.screen-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.board-head{align-items:start;flex-direction:column}}@media(max-width:560px){.screen-grid{grid-template-columns:1fr;padding:10px 12px 28px}.phone{width:min(100%,390px)}.board-head{padding:20px 16px}.board-head h1{font-size:25px}.board-meta{white-space:normal}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}.bar{transform:scaleY(1)}.stock span{transform:scaleX(1)}}
+:root{
+  --green:#17703A;
+  --deep:#0D3B22;
+  --lime:#C6E35A;
+  --bg:#F6F9F2;
+  --line:#E3EADB;
+  --ink:#18291D;
+  --muted:#718071;
+  --tomato:#E4572E;
+  --mango:#F4A62A;
+  --leaf:#3E9B4F;
+  --potato:#C9A06A;
+  --pending-bg:#FFF1D4;
+  --pending:#7A4A00;
+  --confirmed-bg:#E1F0FF;
+  --confirmed:#164D82;
+  --shipped-bg:#F0E5FF;
+  --shipped:#57358A;
+  --delivered-bg:#DDF4E2;
+  --delivered:#145B2A;
+  --cancelled-bg:#FFE3DF;
+  --cancelled:#8A281C;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#e9eee5;
+  color:var(--ink);
+  font-family:'Plus Jakarta Sans',Arial,sans-serif;
+  padding:24px;
+}
+/* ===== CONTAINER ===== */
+.app{
+  max-width:1200px;
+  margin:0 auto;
+  background:var(--bg);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(13,59,34,.08);
+}
+/* ===== HEADER ===== */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 32px;
+  background:var(--deep);
+  color:#fff;
+  flex-wrap:wrap;
+  gap:16px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+  font-size:24px;
+  letter-spacing:-.5px;
+}
+.brand-dot{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--lime);
+  display:grid;
+  place-items:center;
+  color:var(--deep);
+  font-size:18px;
+}
+.brand span{color:var(--lime)}
+.header-nav{
+  display:flex;
+  gap:28px;
+  font-weight:500;
+  font-size:15px;
+  opacity:.85;
+  flex-wrap:wrap;
+}
+.header-nav a{
+  color:#fff;
+  text-decoration:none;
+  transition:.2s;
+}
+.header-nav a:hover{opacity:1;color:var(--lime)}
+.header-actions{
+  display:flex;
+  gap:12px;
+}
+.btn{
+  padding:10px 20px;
+  border-radius:12px;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+  border:none;
+  transition:.2s;
+  font-family:inherit;
+}
+.btn-outline{
+  background:transparent;
+  border:1.5px solid rgba(255,255,255,.3);
+  color:#fff;
+}
+.btn-outline:hover{border-color:var(--lime);color:var(--lime)}
+.btn-lime{
+  background:var(--lime);
+  color:var(--deep);
+}
+.btn-lime:hover{background:#d4ef6a}
+/* ===== HERO ===== */
+.hero{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  padding:48px 40px;
+  gap:40px;
+  align-items:center;
+  background:linear-gradient(135deg,#f6f9f2 0%,#eef5e6 100%);
+  border-bottom:1px solid var(--line);
+}
+.hero-content h1{
+  font-size:46px;
+  line-height:1.1;
+  letter-spacing:-1.5px;
+  margin:0 0 16px;
+  color:var(--deep);
+}
+.hero-content h1 em{
+  font-style:normal;
+  color:var(--green);
+  position:relative;
+}
+.hero-content p{
+  font-size:16px;
+  color:var(--muted);
+  line-height:1.6;
+  margin:0 0 28px;
+  max-width:420px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{
+  background:var(--green);
+  color:#fff;
+  padding:14px 28px;
+  border-radius:14px;
+  font-size:15px;
+}
+.btn-primary:hover{background:var(--deep);transform:translateY(-1px)}
+.btn-ghost{
+  background:#fff;
+  color:var(--green);
+  border:1.5px solid var(--line);
+  padding:14px 28px;
+  border-radius:14px;
+  font-size:15px;
+}
+.btn-ghost:hover{border-color:var(--green)}
+.hero-visual{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+.hero-card{
+  background:#fff;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 6px 20px rgba(13,59,34,.06);
+  border:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.hero-card .emoji{font-size:32px}
+.hero-card h4{margin:0;font-size:15px;font-weight:700}
+.hero-card span{font-size:13px;color:var(--muted)}
+.hero-card .price{
+  font-weight:700;
+  color:var(--green);
+  font-size:15px;
+}
+.hero-card:nth-child(2){transform:translateY(12px)}
+.hero-card:nth-child(3){transform:translateY(-8px)}
+/* ===== SECTION ===== */
+.section{
+  padding:40px;
+}
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:28px;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.section-head h2{
+  font-size:26px;
+  letter-spacing:-.5px;
+  margin:0;
+  color:var(--deep);
+}
+.section-head p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+.link{
+  color:var(--green);
+  font-weight:600;
+  font-size:14px;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.link:hover{text-decoration:underline}
+/* ===== PRODUCTS ===== */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:20px;
+}
+.product{
+  background:#fff;
+  border-radius:20px;
+  border:1px solid var(--line);
+  overflow:hidden;
+  transition:.25s;
+  cursor:pointer;
+}
+.product:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px rgba(13,59,34,.08);
+  border-color:var(--lime);
+}
+.product-img{
+  height:120px;
+  display:grid;
+  place-items:center;
+  font-size:52px;
+  background:var(--bg);
+}
+.product-body{padding:16px}
+.product-body h4{margin:0 0 4px;font-size:15px}
+.product-body .farm{font-size:12px;color:var(--muted);margin-bottom:10px}
+.product-foot{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.product-foot .price{
+  font-weight:700;
+  color:var(--green);
+  font-size:16px;
+}
+.product-foot .unit{font-size:12px;color:var(--muted);font-weight:400}
+.add-btn{
+  width:32px;height:32px;
+  border-radius:10px;
+  border:none;
+  background:var(--lime);
+  color:var(--deep);
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition:.2s;
+}
+.add-btn:hover{background:var(--green);color:#fff}
+/* ===== ORDERS TABLE ===== */
+.orders-card{
+  background:#fff;
+  border-radius:20px;
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+thead{
+  background:var(--bg);
+  text-align:left;
+}
+th{
+  padding:14px 20px;
+  font-weight:600;
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  border-bottom:1px solid var(--line);
+}
+td{
+  padding:16px 20px;
+  border-bottom:1px solid var(--line);
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafcf7}
+.order-id{font-weight:600;color:var(--deep)}
+.badge{
+  display:inline-block;
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+}
+.badge.pending{background:var(--pending-bg);color:var(--pending)}
+.badge.confirmed{background:var(--confirmed-bg);color:var(--confirmed)}
+.badge.shipped{background:var(--shipped-bg);color:var(--shipped)}
+.badge.delivered{background:var(--delivered-bg);color:var(--delivered)}
+.badge.cancelled{background:var(--cancelled-bg);color:var(--cancelled)}
+.amount{font-weight:700;color:var(--deep)}
+/* ===== FOOTER ===== */
+.footer{
+  padding:28px 40px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  border-top:1px solid var(--line);
+  background:var(--bg);
+}
+.footer strong{color:var(--green)}
+/* ===== RESPONSIVE ===== */
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;padding:32px 24px}
+  .hero-content h1{font-size:34px}
+  .section{padding:28px 24px}
+  .header{padding:16px 24px}
+  .header-nav{display:none}
+}
+@media(max-width:600px){
+  body{padding:12px}
+  .app{border-radius:16px}
+  .hero-visual{grid-template-columns:1fr 1fr}
+  .products{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  table{font-size:13px}
+  th,td{padding:12px 14px}
+}
 </style>
 </head>
 <body>
-<header class="board-head"><div><div class="eyebrow">Product UI concept · 12 mobile screens</div><h1>Fresho — Local Farmer Marketplace</h1><p>A warm, straightforward marketplace connecting nearby farms with everyday homes.</p></div><div class="board-meta">390 × 844 px frames · responsive canvas</div></header>
-<main class="screen-grid">
-<section class="screen-wrap"><div class="screen-label">01 · Splash <span>Entry</span></div><article class="phone screen-enter"><div class="hero-illustration"><i class="leaf l1"></i><i class="leaf l2"></i><div class="crate-produce">
-<svg viewBox="0 0 80 90"><path d="M40 20Q18 4 12 24Q20 39 40 28Q60 40 69 20Q59 4 40 20" fill="#3E9B4F"/><path d="M40 25Q14 20 12 48Q13 72 40 75Q67 72 68 48Q65 20 40 25" fill="#E4572E"/><path d="M40 25l-7 -8 9 4 9 -7 -4 11" fill="#17703A"/></svg>
-<svg viewBox="0 0 80 90"><path d="M40 22Q25 4 14 18Q20 35 40 29Q61 35 68 17Q55 5 40 22" fill="#3E9B4F"/><path d="M38 26Q8 18 13 48Q15 70 38 76Q62 67 64 43Q63 24 38 26" fill="#F4A62A"/><path d="M37 26Q43 11 56 9Q50 25 38 31" fill="#17703A"/></svg>
-<svg viewBox="0 0 80 90"><path d="M40 18Q24 2 13 16Q21 33 40 26Q58 35 68 16Q55 3 40 18" fill="#3E9B4F"/><path d="M40 24Q16 21 12 45Q14 68 40 73Q66 68 68 45Q64 21 40 24" fill="#C9A06A"/><path d="M24 42q12 -7 25 1M25 54q12 -7 25 0" stroke="#A47D4D" stroke-width="2" fill="none"/></svg></div><div class="crate"></div></div><div class="splash-content"><div class="splash-logo"><span class="logo-mark">f</span>Fresho</div><p class="tagline">Fresh From Farms To Your Home</p><div class="row muted small"><span>●</span> Local growers <span>·</span> Seasonal produce <span>·</span> Fair prices</div><button class="btn full" style="margin-top:auto" onclick="document.getElementById('role').scrollIntoView({behavior:'smooth',block:'center'})">Get Started <span>→</span></button><p class="tiny muted" style="margin:12px 0 0">Good food, grown closer.</p></div></article></section>
-<section class="screen-wrap" id="role"><div class="screen-label">02 · Choose your role <span>Onboarding</span></div><article class="phone screen-enter"><div class="phone-content"><div class="auth-brand"><span class="logo-mark">f</span> Fresho</div><p class="eyebrow">Welcome aboard</p><h2>How will you use Fresho?</h2><p class="muted">Choose the space that fits you best.</p><div class="stack" style="margin-top:22px"><button class="role-card selected" onclick="selectRole(this)"><span class="role-icon">⌂</span><span><b>Customer</b><p>Shop fresh food from local farms</p></span><span class="role-check">✓</span></button><button class="role-card" onclick="selectRole(this)"><span class="role-icon">♧</span><span><b>Farmer</b><p>Sell produce and manage orders</p></span><span class="role-check"></span></button><button class="role-card" onclick="selectRole(this)"><span class="role-icon">▦</span><span><b>Administrator</b><p>Manage the Fresho marketplace</p></span><span class="role-check"></span></button></div><button class="btn full" style="margin-top:24px" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth',block:'center'})">Continue <span>→</span></button><p class="muted" style="text-align:center;margin-top:17px">Already have an account? <a href="#login" style="color:var(--green);font-weight:800">Log in</a></p></div></article></section>
-<section class="screen-wrap" id="signup"><div class="screen-label">03 · Sign up <span>Account</span></div><article class="phone screen-enter"><div class="phone-content"><div class="auth-brand"><span class="logo-mark">f</span> Fresho</div><h2>Create your account</h2><p class="muted">A fresher basket starts here.</p><div class="tabs"><button class="active" onclick="setTab(this)">Customer</button><button onclick="setTab(this)">Farmer</button><button onclick="setTab(this)">Admin</button></div><form onsubmit="event.preventDefault();toast('Account form ready for API connection')"><div class="field"><label for="su-name">Full name</label><input id="su-name" placeholder="e.g. Aarya Patel" required></div><div class="field"><label for="su-email">Email address</label><input id="su-email" type="email" placeholder="you@example.com" required></div><div class="field"><label for="su-phone">Phone number</label><input id="su-phone" type="tel" placeholder="+91 98765 43210" required></div><div class="field"><label for="su-pass">Password</label><input id="su-pass" type="password" placeholder="At least 8 characters" required minlength="8"></div><label class="row small" style="align-items:flex-start;margin:13px 0"><input type="checkbox" required style="accent-color:var(--green);width:15px;height:15px;margin:0"> <span>I agree to the <a href="#" style="color:var(--green)">Terms of Service</a> and <a href="#" style="color:var(--green)">Privacy Policy</a>.</span></label><button class="btn full" type="submit">Create Account</button></form><p class="muted" style="text-align:center;margin-top:15px">Already registered? <a href="#login" style="color:var(--green);font-weight:800">Log in</a></p></div></article></section>
-<section class="screen-wrap" id="login"><div class="screen-label">04 · Login <span>Account</span></div><article class="phone screen-enter"><div class="phone-content"><div class="auth-brand"><span class="logo-mark">f</span> Fresho</div><div style="margin-top:38px"><p class="eyebrow">Good to see you</p><h2>Welcome back</h2><p class="muted">Log in to pick up where you left off.</p></div><div class="tabs"><button class="active" onclick="setTab(this)">Customer</button><button onclick="setTab(this)">Farmer</button><button onclick="setTab(this)">Admin</button></div><form onsubmit="event.preventDefault();toast('Login form ready for API connection')"><div class="field"><label for="li-email">Email or phone number</label><input id="li-email" placeholder="Enter email or phone" required></div><div class="field"><label for="li-pass">Password</label><input id="li-pass" type="password" placeholder="Enter your password" required></div><div class="between"><span></span><a href="#" style="font-weight:800;color:var(--green);text-decoration:none">Forgot password?</a></div><button class="btn full" style="margin-top:22px" type="submit">Log In</button></form><div class="row" style="margin:20px 0;color:#829080"><div style="height:1px;background:var(--line);flex:1"></div><span>or continue with</span><div style="height:1px;background:var(--line);flex:1"></div></div><div class="social-row"><button class="btn outline" onclick="toast('Connect Google sign-in to your auth provider')">G&nbsp; Google</button><button class="btn outline" onclick="toast('Connect Apple sign-in to your auth provider')">●&nbsp; Apple</button></div><p class="muted" style="text-align:center;margin-top:22px">New to Fresho? <a href="#signup" style="color:var(--green);font-weight:800">Create account</a></p></div></article></section>
-<section class="screen-wrap"><div class="screen-label">05 · Customer home <span>Discover</span></div><article class="phone screen-enter"><div class="phone-content"><div class="between"><div><p class="muted small" style="margin:0 0 4px">Good morning, Aarya</p><h2 style="margin:0">Fresh picks for you</h2><p class="tiny muted" style="margin:5px 0 0">⌖ Ahmedabad, Gujarat</p></div><div class="avatar">AP</div></div><div class="search" style="margin:15px 0 13px"><span>⌕</span><span>Search vegetables, fruits...</span><span style="margin-left:auto">☷</span></div><div class="promo"><div><span class="tag" style="background:#d8ed98;color:#234728">FROM NEARBY FARMS</span><div style="margin-top:8px"><strong>Good food.<br>Closer to home.</strong></div><small>Meet your local growers.</small></div><div class="promo-art"><svg viewBox="0 0 90 90"><path d="M45 18Q26 0 17 17Q21 34 44 26Q66 34 75 15Q61 2 45 18" fill="#70b55e"/><circle cx="42" cy="47" r="26" fill="#E4572E"/><path d="M41 24l-8 -9 12 5 10 -7 -6 13" fill="#0d5a2a"/><path d="M18 67l54 0" stroke="#C6E35A" stroke-width="5" stroke-linecap="round"/></svg></div></div><div class="section-head"><h3>Shop by category</h3><a href="#">See all</a></div><div class="category-row"><div class="category"><div class="bubble"><svg viewBox="0 0 50 50"><path d="M25 14Q12 6 9 19Q12 32 25 30Q39 34 42 18Q34 7 25 14" fill="#3E9B4F"/><circle cx="25" cy="29" r="13" fill="#E4572E"/><path d="M25 17l-4 -6 6 3 6 -4 -3 8" fill="#17703A"/></svg></div>Vegetables</div><div class="category"><div class="bubble" style="background:#fff0d7"><svg viewBox="0 0 50 50"><path d="M25 13Q10 5 11 23Q13 39 26 43Q39 37 39 22Q37 8 25 13" fill="#F4A62A"/><path d="M24 15Q22 4 34 6Q32 15 25 18" fill="#3E9B4F"/></svg></div>Fruits</div><div class="category"><div class="bubble" style="background:#f6eee2"><svg viewBox="0 0 50 50"><path d="M15 14Q10 8 9 17L14 35Q25 43 36 35L41 17Q40 8 35 14Z" fill="#fff" stroke="#C9A06A" stroke-width="2"/><path d="M17 12h16" stroke="#C9A06A" stroke-width="3"/></svg></div>Dairy</div><div class="category"><div class="bubble" style="background:#f5eadb"><svg viewBox="0 0 50 50"><path d="M10 28Q24 8 40 27Q24 42 10 28" fill="#C9A06A"/><path d="M13 28q12 -8 24 0M17 33q8 -5 16 0" fill="none" stroke="#9f7549" stroke-width="2"/></svg></div>Grains</div></div><div class="section-head"><h3>Best farmers</h3><a href="#">Meet them</a></div><div class="row"><div class="mini-farmer"><div class="avatar orange">RK</div><div><b>Ramesh K.</b><div class="tiny muted">Anand · <span class="rating">★ 4.9</span></div></div></div><div class="mini-farmer"><div class="avatar rose">NP</div><div><b>Nisha P.</b><div class="tiny muted">Sanand · <span class="rating">★ 4.8</span></div></div></div></div><div class="section-head"><h3>Picked this morning</h3><a href="#">View all</a></div><div class="product-grid"><div class="product-card"><div class="produce-box"><svg viewBox="0 0 100 90"><path d="M50 20Q27 2 18 20Q23 38 50 29Q77 37 82 17Q66 3 50 20" fill="#3E9B4F"/><circle cx="50" cy="49" r="27" fill="#E4572E"/><path d="M50 25l-7 -9 10 4 9 -6 -4 12" fill="#17703A"/></svg></div><h3>Farm Tomatoes</h3><div class="between"><span class="price">₹36 <small class="muted">/kg</small></span><button class="add" aria-label="Add Farm Tomatoes to cart" onclick="toast('Tomatoes added to cart')">+</button></div><p class="tiny muted" style="margin:5px 0 0">Ramesh Farm</p></div><div class="product-card"><div class="produce-box" style="background:#fff2d9"><svg viewBox="0 0 100 90"><path d="M50 22Q22 8 20 39Q22 67 50 76Q78 65 80 37Q76 9 50 22" fill="#F4A62A"/><path d="M48 23Q42 4 62 7Q61 22 50 29" fill="#3E9B4F"/></svg></div><h3>Sweet Mangoes</h3><div class="between"><span class="price">₹90 <small class="muted">/kg</small></span><button class="add" aria-label="Add Sweet Mangoes to cart" onclick="toast('Mangoes added to cart')">+</button></div><p class="tiny muted" style="margin:5px 0 0">Nisha Orchards</p></div></div></div><nav class="nav"><a class="active" href="#"><span class="glyph">⌂</span>Home</a><a href="#"><span class="glyph">⌕</span>Explore</a><a href="#tracking"><span class="glyph">▣</span>Orders</a><a href="#"><span class="glyph">♙</span>Profile</a></nav></article></section>
-<section class="screen-wrap"><div class="screen-label">06 · Product details <span>Product</span></div><article class="phone screen-enter"><div class="hero-illustration" style="height:285px;flex-shrink:0"><div style="position:absolute;width:220px;height:220px;border:2px dashed #b5cf9e;border-radius:50%;animation:spin 25s linear infinite"></div><div style="position:absolute;width:172px;height:172px;background:#d8e9bf;border-radius:50%"></div><svg style="width:190px;height:190px;position:relative;z-index:1;animation:float 4s infinite" viewBox="0 0 180 180"><path d="M90 40Q48 8 28 35Q35 70 89 55Q140 73 151 32Q115 8 90 40" fill="#3E9B4F"/><path d="M90 48Q45 35 39 78Q40 129 90 146Q141 129 141 76Q133 33 90 48" fill="#E4572E"/><path d="M90 49l-14 -18 19 8 17 -14 -7 26" fill="#17703A"/><path d="M60 75q-9 19 -2 34" stroke="#f17b56" stroke-width="5" stroke-linecap="round" fill="none"/></svg><span class="tag green" style="position:absolute;top:32px;right:17px;animation:pop .6s .3s both">Fresh today</span><button aria-label="Add to wishlist" style="position:absolute;top:31px;left:16px;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#fff;font-size:18px;color:var(--green)" onclick="this.textContent=this.textContent==='♡'?'♥':'♡'">♡</button></div><div class="phone-content" style="padding-top:18px"><span class="tag neutral">VEGETABLES</span><div class="between" style="margin-top:9px"><h2 style="margin:0">Farm-fresh Tomatoes</h2><span class="rating">★ 4.9</span></div><p class="muted" style="margin:6px 0 12px">Naturally ripened · Picked this morning</p><div class="card"><div class="between"><div class="mini-farmer"><div class="avatar orange">RK</div><div><b>Ramesh Patel</b><p class="tiny muted" style="margin:4px 0 0">Anand, Gujarat</p></div></div><a href="#" style="font-size:10px;color:var(--green);font-weight:800;text-decoration:none">View farm</a></div></div><div class="between" style="margin-top:15px"><div><span class="price" style="font-size:21px">₹36</span><span class="muted"> / kg</span></div><span class="small" style="color:var(--green);font-weight:800">● In stock · 24 kg</span></div><div class="stock"><span style="width:72%"></span></div><div class="section-head"><h3>Choose quantity</h3><span class="tiny muted">Select a pack</span></div><div class="row" style="gap:6px"><button class="qty" onclick="pickQty(this)">500 g</button><button class="qty active" onclick="pickQty(this)">1 kg</button><button class="qty" onclick="pickQty(this)">2 kg</button><button class="qty" onclick="pickQty(this)">5 kg</button></div><p class="small muted" style="line-height:1.6">Juicy, locally grown tomatoes from a family farm. Great for everyday cooking and fresh salads.</p></div><div class="sticky-action"><div><div class="tiny muted">Total</div><b class="price" id="detail-price">₹36</b></div><button class="btn" onclick="toast('Tomatoes added to cart')">Add to Cart <span>＋</span></button></div></article></section>
-<section class="screen-wrap"><div class="screen-label">07 · Cart <span>Basket</span></div><article class="phone screen-enter"><div class="phone-content"><div class="between"><div><p class="eyebrow">Your basket</p><h2>Cart <span class="muted" style="font-size:13px;font-weight:600">(2 items)</span></h2></div><button class="btn light" style="height:36px;padding:0 13px" onclick="toast('Continue browsing')">+ Add more</button></div><div class="stack" style="margin-top:18px"><div class="card"><div class="row"><div class="produce-box" style="width:83px;height:82px;flex-shrink:0"><svg viewBox="0 0 100 90"><path d="M50 20Q27 2 18 20Q23 38 50 29Q77 37 82 17Q66 3 50 20" fill="#3E9B4F"/><circle cx="50" cy="49" r="27" fill="#E4572E"/><path d="M50 25l-7 -9 10 4 9 -6 -4 12" fill="#17703A"/></svg></div><div style="flex:1;min-width:0"><div class="between"><h3>Farm Tomatoes</h3><button aria-label="Remove tomatoes" style="border:0;background:none;color:#9aa596" onclick="toast('Remove item using cart API')">×</button></div><p class="tiny muted" style="margin:5px 0 9px">Ramesh Farm · 1 kg</p><div class="between"><b class="price">₹36</b><div class="stepper"><button aria-label="Decrease tomatoes" onclick="step(this,-1)">−</button><b>1</b><button aria-label="Increase tomatoes" onclick="step(this,1)">+</button></div></div></div></div><div class="divider"></div><div class="row"><div class="produce-box" style="width:83px;height:82px;flex-shrink:0;background:#fff2d9"><svg viewBox="0 0 100 90"><path d="M50 22Q22 8 20 39Q22 67 50 76Q78 65 80 37Q76 9 50 22" fill="#F4A62A"/><path d="M48 23Q42 4 62 7Q61 22 50 29" fill="#3E9B4F"/></svg></div><div style="flex:1;min-width:0"><div class="between"><h3>Sweet Mangoes</h3><button aria-label="Remove mangoes" style="border:0;background:none;color:#9aa596" onclick="toast('Remove item using cart API')">×</button></div><p class="tiny muted" style="margin:5px 0 9px">Nisha Orchards · 1 kg</p><div class="between"><b class="price">₹90</b><div class="stepper"><button aria-label="Decrease mangoes" onclick="step(this,-1)">−</button><b>1</b><button aria-label="Increase mangoes" onclick="step(this,1)">+</button></div></div></div></div></div><button class="card row" style="width:100%;text-align:left;color:var(--green);font-weight:800" onclick="toast('Coupon entry can be connected to checkout API')"><span style="font-size:18px">％</span><span style="flex:1">Apply a coupon</span><span>→</span></button><div class="section-head"><h3>Bill details</h3><span class="tiny muted">2 items</span></div><div class="card"><div class="between"><span class="muted">Subtotal</span><b>₹126</b></div><div class="between" style="margin-top:10px"><span class="muted">Delivery</span><b>₹20</b></div><div class="between" style="margin-top:10px"><span class="muted">Savings</span><b style="color:var(--green)">−₹10</b></div><div class="divider"></div><div class="between"><b>Total</b><b class="price" style="font-size:17px">₹136</b></div></div></div><div class="sticky-action"><div><div class="tiny muted">Total amount</div><b class="price" style="font-size:17px">₹136</b></div><button class="btn" onclick="document.getElementById('checkout').scrollIntoView({behavior:'smooth',block:'center'})">Proceed to Checkout →</button></div></article></section>
-<section class="screen-wrap" id="checkout"><div class="screen-label">08 · Checkout <span>Place order</span></div><article class="phone screen-enter"><div class="phone-content"><div class="between"><div><p class="eyebrow">Almost there</p><h2>Checkout</h2></div><span class="tag neutral">Step 1 of 3</span></div><div class="progress"><div class="progress-step active"><b>✓</b>Address</div><div class="progress-step"><b>2</b>Payment</div><div class="progress-step"><b>3</b>Review</div></div><div class="section-head"><h3>Delivery address</h3><a href="#" onclick="toast('Open saved-address form');return false">+ Add new</a></div><div class="stack"><button class="card address" style="text-align:left;border-color:var(--green)" onclick="chooseAddress(this)"><span class="radio active"></span><span style="flex:1"><div class="between"><b>Home</b><span class="tag green">Default</span></div><p class="small muted" style="line-height:1.6;margin:6px 0">Aarya Patel<br>12, Shreeji Park, Satellite<br>Ahmedabad, Gujarat 380015</p><span class="tiny muted">Phone · +91 98765 43210</span></span></button><button class="card address" style="text-align:left" onclick="chooseAddress(this)"><span class="radio"></span><span><b>College</b><p class="small muted" style="line-height:1.6;margin:6px 0">GSFC University, Vadodara<br>Gujarat 391750</p></span></button></div><div class="section-head"><h3>Order summary</h3><a href="#cart">Edit cart</a></div><div class="card"><div class="between"><span class="muted">2 items · Fresh produce</span><b>₹126</b></div><div class="between" style="margin-top:10px"><span class="muted">Delivery fee</span><b>₹20</b></div><div class="divider"></div><div class="between"><b>Payable total</b><b class="price" style="font-size:16px">₹146</b></div></div><p class="tiny muted" style="line-height:1.5;margin-top:12px">Next: choose a payment method and review your order before placing it.</p></div><div class="sticky-action"><button class="btn full" onclick="toast('Continue to payment step')">Continue to Payment →</button></div></article></section>
-<section class="screen-wrap" id="tracking"><div class="screen-label">09 · Order tracking <span>Delivery</span></div><article class="phone screen-enter"><div class="phone-content"><div class="between"><div><p class="eyebrow">Order #FR-2048</p><h2>On its way to you</h2></div><span class="tag shipped">Shipped</span></div><div class="card" style="margin-top:14px"><div class="between"><div><p class="muted small" style="margin:0 0 6px">Estimated arrival</p><h2 style="font-size:25px;margin:0">Today, 4–5 PM</h2><p class="tiny muted" style="margin:5px 0 0">Your farm-fresh basket is moving.</p></div><div style="font-size:31px">↗</div></div><div class="truck-route"><div class="route-dots"></div><span class="truck" aria-label="Delivery truck">🚚</span><span style="position:absolute;left:12px;bottom:9px;font-size:9px;color:#6e806b">Farm</span><span style="position:absolute;right:12px;bottom:9px;font-size:9px;color:#6e806b">Your home</span></div></div><div class="section-head"><h3>Delivery updates</h3><span class="tiny muted">Updated 2:15 PM</span></div><div class="timeline"><div class="timeline-item done"><span class="dot"></span><div><strong>Order placed</strong><p>Today, 10:12 AM · Order received</p></div></div><div class="timeline-item done"><span class="dot"></span><div><strong>Confirmed by farmer</strong><p>Today, 10:18 AM · Ramesh accepted</p></div></div><div class="timeline-item done"><span class="dot"></span><div><strong>Shipped</strong><p>Today, 1:40 PM · Packed and dispatched</p></div></div><div class="timeline-item current"><span class="dot"></span><div><strong>Out for delivery</strong><p>Your order is on the way</p></div></div><div class="timeline-item"><span class="dot"></span><div><strong>Delivered</strong><p>We’ll let you know when it arrives</p></div></div></div><div class="card"><div class="row"><div class="avatar orange">RK</div><div style="flex:1"><b>Ramesh Patel</b><p class="tiny muted" style="margin:4px 0 0">Your farmer · Anand</p></div><button class="btn light" style="height:36px" onclick="toast('Open conversation with farmer')">Message</button></div><div class="divider"></div><div class="between"><span class="small muted">Enjoyed your last basket?</span><button class="btn outline" style="height:35px" onclick="toast('Reorder items from order history')">Reorder ↻</button></div></div></div><nav class="nav"><a href="#"><span class="glyph">⌂</span>Home</a><a href="#"><span class="glyph">⌕</span>Explore</a><a class="active" href="#"><span class="glyph">▣</span>Orders</a><a href="#"><span class="glyph">♙</span>Profile</a></nav></article></section>
-<section class="screen-wrap"><div class="screen-label">10 · Farmer dashboard <span>Farmer</span></div><article class="phone screen-enter"><div class="phone-content"><div class="between"><div><p class="muted small" style="margin:0 0 4px">Good morning, Ramesh</p><h2 style="margin:0">Your farm at a glance</h2><p class="tiny muted" style="margin:5px 0 0">Anand, Gujarat</p></div><div class="avatar orange">RP</div></div><div class="card" style="margin-top:17px;background:#eff6e8"><div class="between"><div><p class="small muted" style="margin:0">This week’s earnings</p><div class="price" style="font-size:25px;margin:7px 0">₹8,460</div><span class="tag green">↑ 12% vs last week</span></div><div style="font-size:23px;color:var(--green)">↗</div></div><div class="chart"><div class="bar-wrap"><div class="bar" style="height:32%"></div><small>Mon</small></div><div class="bar-wrap"><div class="bar" style="height:54%"></div><small>Tue</small></div><div class="bar-wrap"><div class="bar" style="height:43%"></div><small>Wed</small></div><div class="bar-wrap"><div class="bar" style="height:70%"></div><small>Thu</small></div><div class="bar-wrap"><div class="bar" style="height:49%"></div><small>Fri</small></div><div class="bar-wrap"><div class="bar" style="height:82%"></div><small>Sat</small></div><div class="bar-wrap"><div class="bar latest" style="height:63%"></div><small>Sun</small></div></div></div><div class="stat-grid" style="margin-top:11px"><div class="stat"><span class="stat-icon">▣</span><div class="number">8</div><div class="muted small">Pending orders</div><div class="tiny" style="color:var(--pending);margin-top:6px">Needs attention</div></div><div class="stat"><span class="stat-icon">♧</span><div class="number">14</div><div class="muted small">Active products</div><div class="tiny" style="color:var(--green);margin-top:6px">2 low in stock</div></div></div><div class="section-head"><h3>Recent orders</h3><a href="#">View all</a></div><div class="card"><div class="list-row"><div class="avatar">AS</div><div style="flex:1"><b>#FR-2052</b><p class="tiny muted" style="margin:4px 0 0">Aarya S. · 3 items</p></div><div style="text-align:right"><span class="tag pending">Pending</span><p class="tiny muted" style="margin:5px 0 0">₹240</p></div></div><div class="list-row"><div class="avatar rose">KD</div><div style="flex:1"><b>#FR-2051</b><p class="tiny muted" style="margin:4px 0 0">Kunal D. · 2 items</p></div><div style="text-align:right"><span class="tag confirmed">Confirmed</span><p class="tiny muted" style="margin:5px 0 0">₹180</p></div></div><div class="list-row"><div class="avatar blue">MP</div><div style="flex:1"><b>#FR-2049</b><p class="tiny muted" style="margin:4px 0 0">Meera P. · 1 item</p></div><div style="text-align:right"><span class="tag green">Delivered</span><p class="tiny muted" style="margin:5px 0 0">₹95</p></div></div></div><button class="btn full" style="margin-top:13px" onclick="toast('Connect this action to the orders route')">Manage Orders →</button></div><nav class="nav"><a class="active" href="#"><span class="glyph">⌂</span>Overview</a><a href="#"><span class="glyph">♧</span>Products</a><a href="#"><span class="glyph">▣</span>Orders</a><a href="#"><span class="glyph">₹</span>Earnings</a></nav></article></section>
-<section class="screen-wrap"><div class="screen-label">11 · Add product <span>Farmer</span></div><article class="phone screen-enter"><div class="phone-content"><div class="row"><button aria-label="Go back" onclick="history.back()" style="width:35px;height:35px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--deep)">←</button><div><p class="eyebrow" style="margin:0">Your farm shop</p><h2 style="margin:3px 0 0">Add a product</h2></div></div><p class="muted" style="line-height:1.5;margin:9px 0 16px">Tell customers what’s fresh and ready to pick.</p><form onsubmit="event.preventDefault();toast('Product form ready to save through API')"><label class="upload" for="product-image"><span class="plus">＋</span><span>Upload product photos</span><span class="tiny muted">JPG or PNG · Up to 5 MB</span></label><input id="product-image" type="file" accept="image/png,image/jpeg" style="display:none" onchange="document.getElementById('upload-status').textContent=this.files[0]?.name||'No file selected'"><p class="tiny muted" id="upload-status" style="margin:7px 0 12px">Clear photos help customers choose.</p><div class="field"><label for="p-name">Product name</label><input id="p-name" placeholder="e.g. Farm-fresh tomatoes" required></div><div class="field"><label for="p-category">Category</label><select id="p-category" required><option value="">Select a category</option><option>Vegetables</option><option>Fruits</option><option>Dairy</option><option>Grains</option></select></div><div class="row" style="gap:10px"><div class="field" style="flex:1"><label for="p-price">Price per kg (₹)</label><input id="p-price" type="number" min="1" placeholder="36" required></div><div class="field" style="flex:1"><label for="p-stock">Stock (kg)</label><input id="p-stock" type="number" min="0" placeholder="24" required></div></div><div class="field"><label for="p-desc">Description</label><textarea id="p-desc" placeholder="Growing method, freshness, harvest details..."></textarea></div><div class="card row" style="background:#f0f6e9;align-items:flex-start"><span style="color:var(--green);font-size:17px">✓</span><span class="small muted" style="line-height:1.5">Keep your stock and prices up to date so customers know what’s available.</span></div><button class="btn full" style="margin-top:15px" type="submit">Save Product</button></form></div></article></section>
-<section class="screen-wrap"><div class="screen-label">12 · Admin dashboard <span>Administration</span></div><article class="phone screen-enter"><div class="phone-content"><div class="between"><div><p class="eyebrow" style="margin:0">Marketplace overview</p><h2 style="margin:5px 0">Good morning, Admin</h2><p class="tiny muted" style="margin:0">Friday, 23 October</p></div><div class="avatar">AD</div></div><div class="stat-grid" style="margin-top:17px"><div class="stat"><span class="stat-icon">♙</span><div class="number">1,248</div><div class="muted small">Total users</div><div class="tiny muted" style="margin-top:5px">Registered accounts</div></div><div class="stat"><span class="stat-icon">♧</span><div class="number">86</div><div class="muted small">Farmers</div><div class="tiny" style="color:var(--pending);margin-top:5px">12 to verify</div></div><div class="stat"><span class="stat-icon">▤</span><div class="number">342</div><div class="muted small">Products</div><div class="tiny muted" style="margin-top:5px">Across all categories</div></div><div class="stat"><span class="stat-icon">▣</span><div class="number">516</div><div class="muted small">Orders</div><div class="tiny" style="color:var(--green);margin-top:5px">All-time total</div></div></div><div class="card" style="margin-top:12px"><div class="between"><div><h3 class="mini-chart-title">Weekly orders</h3><p class="tiny muted" style="margin:4px 0 0">Marketplace activity</p></div><span class="tag neutral">7 days</span></div><div class="chart" style="height:112px"><div class="bar-wrap"><div class="bar" style="height:38%"></div><small>Mon</small></div><div class="bar-wrap"><div class="bar" style="height:52%"></div><small>Tue</small></div><div class="bar-wrap"><div class="bar" style="height:43%"></div><small>Wed</small></div><div class="bar-wrap"><div class="bar" style="height:68%"></div><small>Thu</small></div><div class="bar-wrap"><div class="bar" style="height:59%"></div><small>Fri</small></div><div class="bar-wrap"><div class="bar" style="height:82%"></div><small>Sat</small></div><div class="bar-wrap"><div class="bar latest" style="height:72%"></div><small>Sun</small></div></div></div><div class="section-head"><h3>Farmer verification</h3><a href="#">View all</a></div><div class="card"><div class="list-row"><div class="avatar orange">JP</div><div style="flex:1;min-width:0"><b>Jayesh Parmar</b><p class="tiny muted" style="margin:4px 0 0">Rajkot · Documents submitted</p></div><span class="tag pending">Pending</span></div><div class="list-row"><div class="avatar rose">SK</div><div style="flex:1;min-width:0"><b>Sejal Khatri</b><p class="tiny muted" style="margin:4px 0 0">Surat · Documents submitted</p></div><span class="tag pending">Pending</span></div><div class="list-row"><div class="avatar">RP</div><div style="flex:1;min-width:0"><b>Ramesh Patel</b><p class="tiny muted" style="margin:4px 0 0">Anand · Identity checked</p></div><span class="tag green">Verified</span></div></div><button class="btn full" style="margin-top:12px" onclick="toast('Open farmer verification queue')">Review Farmers →</button></div><nav class="nav"><a class="active" href="#"><span class="glyph">⌂</span>Overview</a><a href="#"><span class="glyph">♙</span>Users</a><a href="#"><span class="glyph">♧</span>Farmers</a><a href="#"><span class="glyph">▤</span>Reports</a></nav></article></section>
-</main>
-<div id="toast" role="status" aria-live="polite" style="position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#0D3B22;color:white;padding:12px 18px;border-radius:999px;box-shadow:0 6px 22px #102e1930;z-index:10;font-weight:700;transition:.25s;max-width:90%;text-align:center"></div>
-<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
-<script>
-function toast(message){const el=document.getElementById('toast');el.textContent=message;el.style.opacity='1';el.style.transform='translate(-50%,0)';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>{el.style.opacity='0';el.style.transform='translate(-50%,20px)'},2300)}
-function selectRole(btn){btn.parentElement.querySelectorAll('.role-card').forEach(x=>{x.classList.remove('selected');x.querySelector('.role-check').textContent=''});btn.classList.add('selected');btn.querySelector('.role-check').textContent='✓'}
-function setTab(btn){btn.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
-function pickQty(btn){btn.parentElement.querySelectorAll('.qty').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const p=document.getElementById('detail-price');if(p){const q=btn.textContent.trim();p.textContent=q==='500 g'?'₹18':q==='2 kg'?'₹72':q==='5 kg'?'₹180':'₹36'}}
-function step(btn,delta){const n=btn.parentElement.querySelector('b');n.textContent=Math.max(1,Math.min(99,Number(n.textContent)+delta))}
-function chooseAddress(btn){btn.parentElement.querySelectorAll('.address').forEach(x=>{x.style.borderColor='var(--line)';x.querySelector('.radio').classList.remove('active')});btn.style.borderColor='var(--green)';btn.querySelector('.radio').classList.add('active')}
-</script>
+<div class="app">
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-dot">🌱</div>
+      Fresho<span>.</span>
+    </div>
+    <nav class="header-nav">
+      <a href="#">Marketplace</a>
+      <a href="#">Farmers</a>
+      <a href="#">Orders</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-outline">Sign in</button>
+      <button class="btn btn-lime">Get Started</button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Fresh from the <em>farm</em><br>to your table.</h1>
+      <p>Connect directly with local farmers. Shop seasonal produce, support sustainable agriculture, and taste the difference of truly fresh food.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary">Shop Produce</button>
+        <button class="btn btn-ghost">Meet Farmers</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="emoji">🍅</div>
+        <h4>Heirloom Tomatoes</h4>
+        <span>Sunrise Farms</span>
+        <div class="price">$4.50 / lb</div>
+      </div>
+      <div class="hero-card">
+        <div class="emoji">🥬</div>
+        <h4>Organic Kale</h4>
+        <span>Green Valley</span>
+        <div class="price">$3.20 / bunch</div>
+      </div>
+      <div class="hero-card">
+        <div class="emoji">🥕</div>
+        <h4>Rainbow Carrots</h4>
+        <span>Root &amp; Stem Co.</span>
+        <div class="price">$2.80 / lb</div>
+      </div>
+      <div class="hero-card">
+        <div class="emoji">🍯</div>
+        <h4>Raw Honey</h4>
+        <span>Meadow Apiary</span>
+        <div class="price">$9.00 / jar</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS ===== -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>Today's Harvest</h2>
+        <p>Picked fresh this morning by our partner farms.</p>
+      </div>
+      <a href="#" class="link">View all →</a>
+    </div>
+    <div class="products">
+
+      <div class="product">
+        <div class="product-img">🍅</div>
+        <div class="product-body">
+          <h4>Heirloom Tomatoes</h4>
+          <div class="farm">Sunrise Farms · Organic</div>
+          <div class="product-foot">
+            <div class="price">$4.50 <span class="unit">/ lb</span></div>
+            <button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-img">🥬</div>
+        <div class="product-body">
+          <h4>Organic Kale</h4>
+          <div class="farm">Green Valley · Organic</div>
+          <div class="product-foot">
+            <div class="price">$3.20 <span class="unit">/ bunch</span></div>
+            <button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-img">🥕</div>
+        <div class="product-body">
+          <h4>Rainbow Carrots</h4>
+          <div class="farm">Root &amp; Stem Co. · Local</div>
+          <div class="product-foot">
+            <div class="price">$2.80 <span class="unit">/ lb</span></div>
+            <button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-img">🍯</div>
+        <div class="product-body">
+          <h4>Raw Wildflower Honey</h4>
+          <div class="farm">Meadow Apiary · Raw</div>
+          <div class="product-foot">
+            <div class="price">$9.00 <span class="unit">/ jar</span></div>
+            <button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-img">🥔</div>
+        <div class="product-body">
+          <h4>Russet Potatoes</h4>
+          <div class="farm">Hillside Ranch · Local</div>
+          <div class="product-foot">
+            <div class="price">$1.90 <span class="unit">/ lb</span></div>
+            <button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-img">🍓</div>
+        <div class="product-body">
+          <h4>Summer Strawberries</h4>
+          <div class="farm">Berry Fields · Organic</div>
+          <div class="product-foot">
+            <div class="price">$5.60 <span class="unit">/ pint</span></div>
+            <button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== ORDERS ===== -->
+  <section class="section" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <h2>Recent Orders</h2>
+        <p>Track your farm-fresh deliveries in real time.</p>
+      </div>
+      <a href="#" class="link">All orders →</a>
+    </div>
+    <div class="orders-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Farmer</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="order-id">#FR-1042</td>
+            <td>Sunrise Farms</td>
+            <td>Jun 14, 2025</td>
+            <td><span class="badge delivered">Delivered</span></td>
+            <td class="amount">$32.40</td>
+          </tr>
+          <tr>
+            <td class="order-id">#FR-1041</td>
+            <td>Green Valley</td>
+            <td>Jun 13, 2025</td>
+            <td><span class="badge shipped">Shipped</span></td>
+            <td class="amount">$18.75</td>
+          </tr>
+          <tr>
+            <td class="order-id">#FR-1040</td>
+            <td>Meadow Apiary</td>
+            <td>Jun 13, 2025</td>
+            <td><span class="badge confirmed">Confirmed</span></td>
+            <td class="amount">$27.00</td>
+          </tr>
+          <tr>
+            <td class="order-id">#FR-1039</td>
+            <td>Root &amp; Stem Co.</td>
+            <td>Jun 12, 2025</td>
+            <td><span class="badge pending">Pending</span></td>
+            <td class="amount">$14.20</td>
+          </tr>
+          <tr>
+            <td class="order-id">#FR-1038</td>
+            <td>Berry Fields</td>
+            <td>Jun 11, 2025</td>
+            <td><span class="badge cancelled">Cancelled</span></td>
+            <td class="amount">$22.80</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <strong>Fresho</strong> — connecting communities with local farmers since 2025. 🌿
+  </footer>
+
+</div>
 </body>
 </html>
