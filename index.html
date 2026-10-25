@@ -2,562 +2,447 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fresho — Local Farmer Marketplace UI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fresho – Buy direct from local farms</title>
+<meta name="description" content="Order seasonal produce straight from farms near you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 :root{
-  --green:#17703A;
-  --deep:#0D3B22;
-  --lime:#C6E35A;
-  --bg:#F6F9F2;
-  --line:#E3EADB;
-  --ink:#18291D;
-  --muted:#718071;
-  --tomato:#E4572E;
-  --mango:#F4A62A;
-  --leaf:#3E9B4F;
-  --potato:#C9A06A;
-  --pending-bg:#FFF1D4;
-  --pending:#7A4A00;
-  --confirmed-bg:#E1F0FF;
-  --confirmed:#164D82;
-  --shipped-bg:#F0E5FF;
-  --shipped:#57358A;
-  --delivered-bg:#DDF4E2;
-  --delivered:#145B2A;
-  --cancelled-bg:#FFE3DF;
-  --cancelled:#8A281C;
+  --field:#14442B;
+  --field-2:#1D6B42;
+  --sprout:#B9E04B;
+  --paper:#F7F8F3;
+  --card:#FFFFFF;
+  --kraft:#D8BE92;
+  --tomato:#D9432B;
+  --ink:#1A2420;
+  --muted:#5B6A61;
+  --line:#DDE3D6;
+
+  --r-sm:8px; --r-md:14px; --r-lg:24px;
+  --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+  --font-body:'Figtree',system-ui,sans-serif;
+
+  --s-pending:#7A4A00;   --b-pending:#FFF0CC;
+  --s-confirmed:#164D82; --b-confirmed:#E0EFFF;
+  --s-shipped:#57358A;   --b-shipped:#EFE5FF;
+  --s-delivered:#145B2A; --b-delivered:#DAF3E0;
+  --s-cancelled:#8A281C; --b-cancelled:#FFE2DD;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:#e9eee5;
-  color:var(--ink);
-  font-family:'Plus Jakarta Sans',Arial,sans-serif;
-  padding:24px;
-}
-/* ===== CONTAINER ===== */
-.app{
-  max-width:1200px;
-  margin:0 auto;
-  background:var(--bg);
-  border-radius:24px;
-  overflow:hidden;
-  box-shadow:0 20px 60px rgba(13,59,34,.08);
-}
-/* ===== HEADER ===== */
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:20px 32px;
-  background:var(--deep);
-  color:#fff;
-  flex-wrap:wrap;
-  gap:16px;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-weight:800;
-  font-size:24px;
-  letter-spacing:-.5px;
-}
-.brand-dot{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:var(--lime);
-  display:grid;
-  place-items:center;
-  color:var(--deep);
-  font-size:18px;
-}
-.brand span{color:var(--lime)}
-.header-nav{
-  display:flex;
-  gap:28px;
-  font-weight:500;
-  font-size:15px;
-  opacity:.85;
-  flex-wrap:wrap;
-}
-.header-nav a{
-  color:#fff;
-  text-decoration:none;
-  transition:.2s;
-}
-.header-nav a:hover{opacity:1;color:var(--lime)}
-.header-actions{
-  display:flex;
-  gap:12px;
-}
-.btn{
-  padding:10px 20px;
-  border-radius:12px;
-  font-weight:600;
-  font-size:14px;
-  cursor:pointer;
-  border:none;
-  transition:.2s;
-  font-family:inherit;
-}
-.btn-outline{
-  background:transparent;
-  border:1.5px solid rgba(255,255,255,.3);
-  color:#fff;
-}
-.btn-outline:hover{border-color:var(--lime);color:var(--lime)}
-.btn-lime{
-  background:var(--lime);
-  color:var(--deep);
-}
-.btn-lime:hover{background:#d4ef6a}
-/* ===== HERO ===== */
-.hero{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  padding:48px 40px;
-  gap:40px;
-  align-items:center;
-  background:linear-gradient(135deg,#f6f9f2 0%,#eef5e6 100%);
-  border-bottom:1px solid var(--line);
-}
-.hero-content h1{
-  font-size:46px;
-  line-height:1.1;
-  letter-spacing:-1.5px;
-  margin:0 0 16px;
-  color:var(--deep);
-}
-.hero-content h1 em{
-  font-style:normal;
-  color:var(--green);
-  position:relative;
-}
-.hero-content p{
-  font-size:16px;
-  color:var(--muted);
-  line-height:1.6;
-  margin:0 0 28px;
-  max-width:420px;
-}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{
-  background:var(--green);
-  color:#fff;
-  padding:14px 28px;
-  border-radius:14px;
-  font-size:15px;
-}
-.btn-primary:hover{background:var(--deep);transform:translateY(-1px)}
-.btn-ghost{
-  background:#fff;
-  color:var(--green);
-  border:1.5px solid var(--line);
-  padding:14px 28px;
-  border-radius:14px;
-  font-size:15px;
-}
-.btn-ghost:hover{border-color:var(--green)}
-.hero-visual{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-.hero-card{
-  background:#fff;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 6px 20px rgba(13,59,34,.06);
-  border:1px solid var(--line);
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-.hero-card .emoji{font-size:32px}
-.hero-card h4{margin:0;font-size:15px;font-weight:700}
-.hero-card span{font-size:13px;color:var(--muted)}
-.hero-card .price{
-  font-weight:700;
-  color:var(--green);
-  font-size:15px;
-}
-.hero-card:nth-child(2){transform:translateY(12px)}
-.hero-card:nth-child(3){transform:translateY(-8px)}
-/* ===== SECTION ===== */
-.section{
-  padding:40px;
-}
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  margin-bottom:28px;
-  flex-wrap:wrap;
-  gap:12px;
-}
-.section-head h2{
-  font-size:26px;
-  letter-spacing:-.5px;
-  margin:0;
-  color:var(--deep);
-}
-.section-head p{
-  margin:4px 0 0;
-  color:var(--muted);
-  font-size:14px;
-}
-.link{
-  color:var(--green);
-  font-weight:600;
-  font-size:14px;
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  gap:4px;
-}
-.link:hover{text-decoration:underline}
-/* ===== PRODUCTS ===== */
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:20px;
-}
-.product{
-  background:#fff;
-  border-radius:20px;
-  border:1px solid var(--line);
-  overflow:hidden;
-  transition:.25s;
-  cursor:pointer;
-}
-.product:hover{
-  transform:translateY(-4px);
-  box-shadow:0 12px 30px rgba(13,59,34,.08);
-  border-color:var(--lime);
-}
-.product-img{
-  height:120px;
-  display:grid;
-  place-items:center;
-  font-size:52px;
-  background:var(--bg);
-}
-.product-body{padding:16px}
-.product-body h4{margin:0 0 4px;font-size:15px}
-.product-body .farm{font-size:12px;color:var(--muted);margin-bottom:10px}
-.product-foot{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.product-foot .price{
-  font-weight:700;
-  color:var(--green);
-  font-size:16px;
-}
-.product-foot .unit{font-size:12px;color:var(--muted);font-weight:400}
-.add-btn{
-  width:32px;height:32px;
-  border-radius:10px;
-  border:none;
-  background:var(--lime);
-  color:var(--deep);
-  font-size:18px;
-  font-weight:700;
-  cursor:pointer;
-  display:grid;
-  place-items:center;
-  transition:.2s;
-}
-.add-btn:hover{background:var(--green);color:#fff}
-/* ===== ORDERS TABLE ===== */
-.orders-card{
-  background:#fff;
-  border-radius:20px;
-  border:1px solid var(--line);
-  overflow:hidden;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:14px;
-}
-thead{
-  background:var(--bg);
-  text-align:left;
-}
-th{
-  padding:14px 20px;
-  font-weight:600;
-  color:var(--muted);
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-  border-bottom:1px solid var(--line);
-}
-td{
-  padding:16px 20px;
-  border-bottom:1px solid var(--line);
-}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:#fafcf7}
-.order-id{font-weight:600;color:var(--deep)}
-.badge{
-  display:inline-block;
-  padding:5px 12px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:600;
-}
-.badge.pending{background:var(--pending-bg);color:var(--pending)}
-.badge.confirmed{background:var(--confirmed-bg);color:var(--confirmed)}
-.badge.shipped{background:var(--shipped-bg);color:var(--shipped)}
-.badge.delivered{background:var(--delivered-bg);color:var(--delivered)}
-.badge.cancelled{background:var(--cancelled-bg);color:var(--cancelled)}
-.amount{font-weight:700;color:var(--deep)}
-/* ===== FOOTER ===== */
-.footer{
-  padding:28px 40px;
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-  border-top:1px solid var(--line);
-  background:var(--bg);
-}
-.footer strong{color:var(--green)}
-/* ===== RESPONSIVE ===== */
-@media(max-width:860px){
-  .hero{grid-template-columns:1fr;padding:32px 24px}
-  .hero-content h1{font-size:34px}
-  .section{padding:28px 24px}
-  .header{padding:16px 24px}
-  .header-nav{display:none}
-}
-@media(max-width:600px){
-  body{padding:12px}
-  .app{border-radius:16px}
-  .hero-visual{grid-template-columns:1fr 1fr}
-  .products{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-  table{font-size:13px}
-  th,td{padding:12px 14px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.55 var(--font-body);-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+button,input{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--field-2);outline-offset:2px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{width:min(1160px,100% - 2.5rem);margin-inline:auto}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;padding:.65rem 1.25rem;border:2px solid transparent;border-radius:var(--r-md);font-weight:600;cursor:pointer;text-decoration:none;transition:background-color .15s,border-color .15s,color .15s}
+.btn-primary{background:var(--field);color:#fff}
+.btn-primary:hover{background:var(--field-2)}
+.btn-sprout{background:var(--sprout);color:var(--field)}
+.btn-sprout:hover{background:#cdee6b}
+.btn-line{background:transparent;border-color:var(--line);color:inherit}
+.btn-line:hover{border-color:var(--field)}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:20;background:var(--field);color:#fff}
+.site-header .wrap{display:flex;align-items:center;gap:1.5rem;min-height:68px}
+.brand{display:flex;align-items:center;gap:.6rem;font:800 1.5rem var(--font-display);text-decoration:none;letter-spacing:-.02em}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--sprout);font-size:1.1rem}
+.nav{display:flex;gap:1.5rem;margin-left:auto}
+.nav a{text-decoration:none;font-weight:500;opacity:.85;padding:.25rem 0}
+.nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:6px}
+.cart-toggle{position:relative;margin-left:.5rem}
+.cart-count{min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--tomato);color:#fff;font-size:.8rem;font-weight:700;display:inline-grid;place-items:center}
+@media (max-width:720px){.nav{display:none}.cart-toggle{margin-left:auto}}
+
+/* Hero */
+.hero{padding:clamp(2.5rem,7vw,5rem) 0;border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.hero h1{font:800 clamp(2.4rem,6vw,4.2rem)/1.02 var(--font-display);letter-spacing:-.035em;margin:0 0 1rem;color:var(--field);text-wrap:balance}
+.hero p{max-width:46ch;color:var(--muted);font-size:1.1rem;margin:0 0 1.75rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.75rem}
+.tags{display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+.tag{position:relative;background:var(--kraft);border-radius:var(--r-sm) var(--r-sm) var(--r-lg) var(--r-sm);padding:1.25rem 1.1rem 1rem;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;color:#2c2113}
+.tag::before{content:"";position:absolute;top:12px;left:14px;width:12px;height:12px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 2px rgba(0,0,0,.15)}
+.tag:nth-child(even){transform:translateY(1.25rem) rotate(1.5deg)}
+.tag:nth-child(odd){transform:rotate(-1.5deg)}
+.tag .emoji{font-size:2rem;line-height:1;margin-bottom:.4rem}
+.tag strong{font-family:var(--font-display);font-size:1.1rem}
+.tag small{opacity:.75}
+.tag .price{font:800 1.25rem var(--font-display);margin-top:.25rem}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.tag:nth-child(n){transform:none}}
+
+/* Sections */
+.section{padding:3rem 0}
+.section-head{display:flex;flex-wrap:wrap;gap:1rem;align-items:end;justify-content:space-between;margin-bottom:1.5rem}
+.section-head h2{font:800 1.9rem var(--font-display);letter-spacing:-.02em;margin:0;color:var(--field)}
+.section-head p{margin:.25rem 0 0;color:var(--muted)}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem}
+.search{flex:1 1 240px;min-height:44px;padding:.6rem 1rem;border:1.5px solid var(--line);border-radius:var(--r-md);background:#fff}
+.search:focus{border-color:var(--field-2)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{min-height:44px;padding:.5rem 1rem;border:1.5px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;font-weight:500}
+.chip:hover{border-color:var(--field)}
+.chip[aria-pressed="true"]{background:var(--field);border-color:var(--field);color:#fff}
+
+/* Products */
+.products{list-style:none;margin:0;padding:0;display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.product{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.product-img{display:grid;place-items:center;height:130px;font-size:3.5rem;background:linear-gradient(180deg,#EEF3E6,#F7F8F3)}
+.product-body{display:flex;flex-direction:column;gap:.15rem;padding:1rem 1.1rem 1.1rem;flex:1}
+.product h3{margin:0;font:600 1.05rem var(--font-body)}
+.farm{color:var(--muted);font-size:.875rem}
+.label{align-self:flex-start;margin-top:.4rem;padding:.1rem .55rem;border-radius:999px;background:#E8F4D0;color:var(--field);font-size:.78rem;font-weight:600}
+.product-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.9rem}
+.price{font:800 1.2rem var(--font-display);color:var(--field)}
+.price small{font:400 .85rem var(--font-body);color:var(--muted)}
+.add{width:44px;height:44px;border:0;border-radius:var(--r-md);background:var(--sprout);color:var(--field);font-size:1.4rem;font-weight:700;cursor:pointer}
+.add:hover{background:var(--field);color:#fff}
+.empty{padding:2rem;border:2px dashed var(--line);border-radius:var(--r-lg);text-align:center;color:var(--muted)}
+
+/* Orders */
+.table-wrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg)}
+table{width:100%;min-width:560px;border-collapse:collapse;font-size:.95rem}
+caption{text-align:left}
+th,td{padding:.9rem 1.25rem;text-align:left;border-bottom:1px solid var(--line)}
+thead th{background:var(--paper);color:var(--muted);font-weight:600;font-size:.85rem}
+tbody tr:last-child :is(th,td){border-bottom:0}
+tbody th{font-weight:600;color:var(--field)}
+td.amount{font-weight:700;text-align:right}
+th.amount{text-align:right}
+.badge{display:inline-block;padding:.2rem .7rem;border-radius:999px;font-size:.82rem;font-weight:600}
+.badge.pending{background:var(--b-pending);color:var(--s-pending)}
+.badge.confirmed{background:var(--b-confirmed);color:var(--s-confirmed)}
+.badge.shipped{background:var(--b-shipped);color:var(--s-shipped)}
+.badge.delivered{background:var(--b-delivered);color:var(--s-delivered)}
+.badge.cancelled{background:var(--b-cancelled);color:var(--s-cancelled)}
+
+/* Cart drawer */
+.scrim{position:fixed;inset:0;z-index:30;background:rgba(10,25,16,.45)}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:31;width:min(420px,100%);display:flex;flex-direction:column;background:var(--paper);box-shadow:-12px 0 40px rgba(0,0,0,.2);transform:translateX(100%);visibility:hidden;transition:transform .25s ease,visibility 0s .25s}
+.drawer.open{transform:none;visibility:visible;transition:transform .25s ease}
+.drawer header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;border-bottom:1px solid var(--line)}
+.drawer h2{margin:0;font:800 1.3rem var(--font-display)}
+.close{width:44px;height:44px;border:0;background:transparent;font-size:1.6rem;cursor:pointer;border-radius:var(--r-md)}
+.close:hover{background:var(--line)}
+.cart-items{list-style:none;margin:0;padding:0 1.25rem;flex:1;overflow-y:auto}
+.cart-item{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:center;padding:1rem 0;border-bottom:1px solid var(--line)}
+.cart-item .emoji{font-size:1.9rem}
+.cart-item strong{display:block}
+.qty{display:inline-flex;align-items:center;gap:.25rem;margin-top:.25rem}
+.qty button{width:32px;height:32px;border:1.5px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-weight:700}
+.qty button:hover{border-color:var(--field)}
+.qty span{min-width:1.8rem;text-align:center;font-weight:600}
+.drawer footer{padding:1.25rem;border-top:1px solid var(--line);display:grid;gap:.75rem}
+.total{display:flex;justify-content:space-between;font:800 1.2rem var(--font-display)}
+.drawer .empty{margin:1.25rem}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:1.5rem;z-index:40;transform:translate(-50%,150%);padding:.75rem 1.25rem;border-radius:var(--r-md);background:var(--field);color:#fff;font-weight:500;transition:transform .2s}
+.toast.show{transform:translate(-50%,0)}
+
+.site-footer{padding:2rem 0;text-align:center;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
 </style>
 </head>
 <body>
-<div class="app">
 
-  <!-- ===== HEADER ===== -->
-  <header class="header">
-    <div class="brand">
-      <div class="brand-dot">🌱</div>
-      Fresho<span>.</span>
-    </div>
-    <nav class="header-nav">
-      <a href="#">Marketplace</a>
-      <a href="#">Farmers</a>
-      <a href="#">Orders</a>
-      <a href="#">About</a>
+<a class="sr-only" href="#market">Skip to produce</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">🌱</span>Fresho</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#market">Produce</a>
+      <a href="#orders">Orders</a>
     </nav>
-    <div class="header-actions">
-      <button class="btn btn-outline">Sign in</button>
-      <button class="btn btn-lime">Get Started</button>
+    <button class="btn btn-sprout cart-toggle" id="cartToggle" aria-haspopup="dialog" aria-controls="cartDrawer">
+      Cart <span class="cart-count" id="cartCount" aria-label="0 items">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <h1 id="hero-title">Picked this morning. On your table tonight.</h1>
+        <p>Order seasonal produce straight from farms within 50 km. Farmers set their own prices and keep the profit.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#market">Shop today's harvest</a>
+          <a class="btn btn-line" href="#orders">Track an order</a>
+        </div>
+      </div>
+      <div class="tags" aria-hidden="true">
+        <div class="tag"><span class="emoji">🍅</span><strong>Heirloom tomatoes</strong><small>Sunrise Farms</small><span class="price">$4.50/lb</span></div>
+        <div class="tag"><span class="emoji">🥬</span><strong>Organic kale</strong><small>Green Valley</small><span class="price">$3.20/bunch</span></div>
+        <div class="tag"><span class="emoji">🥕</span><strong>Rainbow carrots</strong><small>Root &amp; Stem Co.</small><span class="price">$2.80/lb</span></div>
+        <div class="tag"><span class="emoji">🍯</span><strong>Wildflower honey</strong><small>Meadow Apiary</small><span class="price">$9.00/jar</span></div>
+      </div>
     </div>
+  </section>
+
+  <section class="section" id="market" aria-labelledby="market-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 id="market-title">Today's harvest</h2>
+          <p>Fresh from our partner farms this morning.</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <label class="sr-only" for="search">Search produce or farms</label>
+        <input class="search" id="search" type="search" placeholder="Search produce or farms" autocomplete="off">
+        <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+      </div>
+
+      <p class="sr-only" id="resultStatus" role="status" aria-live="polite"></p>
+      <ul class="products" id="products"></ul>
+    </div>
+  </section>
+
+  <section class="section" id="orders" aria-labelledby="orders-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 id="orders-title">Recent orders</h2>
+          <p>Status updates as each farm confirms and ships.</p>
+        </div>
+      </div>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="orders-title">
+        <table>
+          <thead>
+            <tr><th scope="col">Order</th><th scope="col">Farm</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col" class="amount">Total</th></tr>
+          </thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap"><strong>Fresho</strong> connects neighbourhoods with local farms.</div>
+</footer>
+
+<!-- Cart drawer -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <header>
+    <h2 id="cartTitle">Your cart</h2>
+    <button class="close" id="cartClose" aria-label="Close cart">×</button>
   </header>
-
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Fresh from the <em>farm</em><br>to your table.</h1>
-      <p>Connect directly with local farmers. Shop seasonal produce, support sustainable agriculture, and taste the difference of truly fresh food.</p>
-      <div class="hero-actions">
-        <button class="btn btn-primary">Shop Produce</button>
-        <button class="btn btn-ghost">Meet Farmers</button>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-card">
-        <div class="emoji">🍅</div>
-        <h4>Heirloom Tomatoes</h4>
-        <span>Sunrise Farms</span>
-        <div class="price">$4.50 / lb</div>
-      </div>
-      <div class="hero-card">
-        <div class="emoji">🥬</div>
-        <h4>Organic Kale</h4>
-        <span>Green Valley</span>
-        <div class="price">$3.20 / bunch</div>
-      </div>
-      <div class="hero-card">
-        <div class="emoji">🥕</div>
-        <h4>Rainbow Carrots</h4>
-        <span>Root &amp; Stem Co.</span>
-        <div class="price">$2.80 / lb</div>
-      </div>
-      <div class="hero-card">
-        <div class="emoji">🍯</div>
-        <h4>Raw Honey</h4>
-        <span>Meadow Apiary</span>
-        <div class="price">$9.00 / jar</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== PRODUCTS ===== -->
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <h2>Today's Harvest</h2>
-        <p>Picked fresh this morning by our partner farms.</p>
-      </div>
-      <a href="#" class="link">View all →</a>
-    </div>
-    <div class="products">
-
-      <div class="product">
-        <div class="product-img">🍅</div>
-        <div class="product-body">
-          <h4>Heirloom Tomatoes</h4>
-          <div class="farm">Sunrise Farms · Organic</div>
-          <div class="product-foot">
-            <div class="price">$4.50 <span class="unit">/ lb</span></div>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-img">🥬</div>
-        <div class="product-body">
-          <h4>Organic Kale</h4>
-          <div class="farm">Green Valley · Organic</div>
-          <div class="product-foot">
-            <div class="price">$3.20 <span class="unit">/ bunch</span></div>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-img">🥕</div>
-        <div class="product-body">
-          <h4>Rainbow Carrots</h4>
-          <div class="farm">Root &amp; Stem Co. · Local</div>
-          <div class="product-foot">
-            <div class="price">$2.80 <span class="unit">/ lb</span></div>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-img">🍯</div>
-        <div class="product-body">
-          <h4>Raw Wildflower Honey</h4>
-          <div class="farm">Meadow Apiary · Raw</div>
-          <div class="product-foot">
-            <div class="price">$9.00 <span class="unit">/ jar</span></div>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-img">🥔</div>
-        <div class="product-body">
-          <h4>Russet Potatoes</h4>
-          <div class="farm">Hillside Ranch · Local</div>
-          <div class="product-foot">
-            <div class="price">$1.90 <span class="unit">/ lb</span></div>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-img">🍓</div>
-        <div class="product-body">
-          <h4>Summer Strawberries</h4>
-          <div class="farm">Berry Fields · Organic</div>
-          <div class="product-foot">
-            <div class="price">$5.60 <span class="unit">/ pint</span></div>
-            <button class="add-btn">+</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== ORDERS ===== -->
-  <section class="section" style="padding-top:0">
-    <div class="section-head">
-      <div>
-        <h2>Recent Orders</h2>
-        <p>Track your farm-fresh deliveries in real time.</p>
-      </div>
-      <a href="#" class="link">All orders →</a>
-    </div>
-    <div class="orders-card">
-      <table>
-        <thead>
-          <tr>
-            <th>Order</th>
-            <th>Farmer</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="order-id">#FR-1042</td>
-            <td>Sunrise Farms</td>
-            <td>Jun 14, 2025</td>
-            <td><span class="badge delivered">Delivered</span></td>
-            <td class="amount">$32.40</td>
-          </tr>
-          <tr>
-            <td class="order-id">#FR-1041</td>
-            <td>Green Valley</td>
-            <td>Jun 13, 2025</td>
-            <td><span class="badge shipped">Shipped</span></td>
-            <td class="amount">$18.75</td>
-          </tr>
-          <tr>
-            <td class="order-id">#FR-1040</td>
-            <td>Meadow Apiary</td>
-            <td>Jun 13, 2025</td>
-            <td><span class="badge confirmed">Confirmed</span></td>
-            <td class="amount">$27.00</td>
-          </tr>
-          <tr>
-            <td class="order-id">#FR-1039</td>
-            <td>Root &amp; Stem Co.</td>
-            <td>Jun 12, 2025</td>
-            <td><span class="badge pending">Pending</span></td>
-            <td class="amount">$14.20</td>
-          </tr>
-          <tr>
-            <td class="order-id">#FR-1038</td>
-            <td>Berry Fields</td>
-            <td>Jun 11, 2025</td>
-            <td><span class="badge cancelled">Cancelled</span></td>
-            <td class="amount">$22.80</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <strong>Fresho</strong> — connecting communities with local farmers since 2025. 🌿
+  <ul class="cart-items" id="cartItems"></ul>
+  <footer>
+    <div class="total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+    <button class="btn btn-primary" id="checkout">Place order</button>
   </footer>
+</aside>
 
-</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------- Data (prices in cents to avoid float errors) ---------- */
+  const PRODUCTS = [
+    {id:'tomato', name:'Heirloom tomatoes',    farm:'Sunrise Farms',   cat:'Vegetables', label:'Organic', cents:450, unit:'lb',    emoji:'🍅'},
+    {id:'kale',   name:'Organic kale',         farm:'Green Valley',    cat:'Vegetables', label:'Organic', cents:320, unit:'bunch', emoji:'🥬'},
+    {id:'carrot', name:'Rainbow carrots',      farm:'Root & Stem Co.', cat:'Vegetables', label:'Local',   cents:280, unit:'lb',    emoji:'🥕'},
+    {id:'potato', name:'Russet potatoes',      farm:'Hillside Ranch',  cat:'Vegetables', label:'Local',   cents:190, unit:'lb',    emoji:'🥔'},
+    {id:'berry',  name:'Summer strawberries',  farm:'Berry Fields',    cat:'Fruit',      label:'Organic', cents:560, unit:'pint',  emoji:'🍓'},
+    {id:'honey',  name:'Wildflower honey',     farm:'Meadow Apiary',   cat:'Pantry',     label:'Raw',     cents:900, unit:'jar',   emoji:'🍯'}
+  ];
+  const ORDERS = [
+    {id:'FR-1042', farm:'Sunrise Farms',   date:'2025-06-14', status:'delivered', cents:3240},
+    {id:'FR-1041', farm:'Green Valley',    date:'2025-06-13', status:'shipped',   cents:1875},
+    {id:'FR-1040', farm:'Meadow Apiary',   date:'2025-06-13', status:'confirmed', cents:2700},
+    {id:'FR-1039', farm:'Root & Stem Co.', date:'2025-06-12', status:'pending',   cents:1420},
+    {id:'FR-1038', farm:'Berry Fields',    date:'2025-06-11', status:'cancelled', cents:2280}
+  ];
+
+  /* ---------- Helpers ---------- */
+  const $ = (s, r = document) => r.querySelector(s);
+  const money = c => new Intl.NumberFormat('en-US', {style:'currency', currency:'USD'}).format(c / 100);
+  const dateFmt = new Intl.DateTimeFormat('en-US', {year:'numeric', month:'short', day:'numeric'});
+  const esc = s => String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const cap = s => s[0].toUpperCase() + s.slice(1);
+
+  /* ---------- State ---------- */
+  const state = {query:'', category:'All', cart:new Map()}; // id -> qty
+
+  /* ---------- Products ---------- */
+  const categories = ['All', ...new Set(PRODUCTS.map(p => p.cat))];
+
+  function renderChips() {
+    $('#chips').innerHTML = categories.map(c =>
+      `<button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${c === state.category}">${esc(c)}</button>`
+    ).join('');
+  }
+
+  function renderProducts() {
+    const q = state.query.trim().toLowerCase();
+    const list = PRODUCTS.filter(p =>
+      (state.category === 'All' || p.cat === state.category) &&
+      (!q || `${p.name} ${p.farm}`.toLowerCase().includes(q))
+    );
+
+    $('#products').innerHTML = list.length ? list.map(p => `
+      <li class="product">
+        <div class="product-img" aria-hidden="true">${p.emoji}</div>
+        <div class="product-body">
+          <h3>${esc(p.name)}</h3>
+          <span class="farm">${esc(p.farm)}</span>
+          <span class="label">${esc(p.label)}</span>
+          <div class="product-foot">
+            <div class="price">${money(p.cents)} <small>/ ${esc(p.unit)}</small></div>
+            <button class="add" type="button" data-add="${p.id}" aria-label="Add ${esc(p.name)} to cart">+</button>
+          </div>
+        </div>
+      </li>`).join('')
+      : `<li class="empty" style="grid-column:1/-1">Nothing matches “${esc(state.query)}”. Try a different word or clear the filter.</li>`;
+
+    $('#resultStatus').textContent = `${list.length} ${list.length === 1 ? 'item' : 'items'} shown`;
+  }
+
+  /* ---------- Orders ---------- */
+  function renderOrders() {
+    $('#ordersBody').innerHTML = ORDERS.map(o => `
+      <tr>
+        <th scope="row">#${esc(o.id)}</th>
+        <td>${esc(o.farm)}</td>
+        <td><time datetime="${o.date}">${dateFmt.format(new Date(o.date + 'T00:00:00'))}</time></td>
+        <td><span class="badge ${o.status}">${cap(o.status)}</span></td>
+        <td class="amount">${money(o.cents)}</td>
+      </tr>`).join('');
+  }
+
+  /* ---------- Cart ---------- */
+  const drawer = $('#cartDrawer'), scrim = $('#scrim'), toggle = $('#cartToggle');
+  let toastTimer;
+
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  function renderCart() {
+    const rows = [...state.cart].map(([id, qty]) => ({p: PRODUCTS.find(x => x.id === id), qty}));
+    const count = rows.reduce((n, r) => n + r.qty, 0);
+    const total = rows.reduce((n, r) => n + r.qty * r.p.cents, 0);
+
+    $('#cartCount').textContent = count;
+    $('#cartCount').setAttribute('aria-label', `${count} ${count === 1 ? 'item' : 'items'}`);
+    $('#cartTotal').textContent = money(total);
+    $('#checkout').disabled = !count;
+
+    $('#cartItems').innerHTML = rows.length ? rows.map(({p, qty}) => `
+      <li class="cart-item">
+        <span class="emoji" aria-hidden="true">${p.emoji}</span>
+        <div>
+          <strong>${esc(p.name)}</strong>
+          <span class="farm">${esc(p.farm)} · ${money(p.cents)}/${esc(p.unit)}</span>
+          <div class="qty">
+            <button type="button" data-dec="${p.id}" aria-label="Remove one ${esc(p.name)}">−</button>
+            <span aria-live="polite">${qty}</span>
+            <button type="button" data-inc="${p.id}" aria-label="Add one ${esc(p.name)}">+</button>
+          </div>
+        </div>
+        <strong>${money(qty * p.cents)}</strong>
+      </li>`).join('')
+      : `<li class="empty">Your cart is empty. Add something from today's harvest.</li>`;
+  }
+
+  function change(id, delta) {
+    const next = (state.cart.get(id) || 0) + delta;
+    next > 0 ? state.cart.set(id, next) : state.cart.delete(id);
+    renderCart();
+  }
+
+  function openCart() {
+    drawer.classList.add('open');
+    scrim.hidden = false;
+    document.body.style.overflow = 'hidden';
+    $('#cartClose').focus();
+  }
+  function closeCart() {
+    drawer.classList.remove('open');
+    scrim.hidden = true;
+    document.body.style.overflow = '';
+    toggle.focus();
+  }
+
+  /* ---------- Events ---------- */
+  $('#search').addEventListener('input', e => { state.query = e.target.value; renderProducts(); });
+
+  $('#chips').addEventListener('click', e => {
+    const b = e.target.closest('[data-cat]');
+    if (!b) return;
+    state.category = b.dataset.cat;
+    renderChips();
+    renderProducts();
+    $(`[data-cat="${CSS.escape(state.category)}"]`).focus();
+  });
+
+  $('#products').addEventListener('click', e => {
+    const b = e.target.closest('[data-add]');
+    if (!b) return;
+    change(b.dataset.add, 1);
+    toast(`Added ${PRODUCTS.find(p => p.id === b.dataset.add).name}`);
+  });
+
+  $('#cartItems').addEventListener('click', e => {
+    const inc = e.target.closest('[data-inc]'), dec = e.target.closest('[data-dec]');
+    if (inc) change(inc.dataset.inc, 1);
+    if (dec) change(dec.dataset.dec, -1);
+  });
+
+  toggle.addEventListener('click', openCart);
+  $('#cartClose').addEventListener('click', closeCart);
+  scrim.addEventListener('click', closeCart);
+
+  $('#checkout').addEventListener('click', () => {
+    state.cart.clear();
+    renderCart();
+    closeCart();
+    toast('Order placed. Farms will confirm shortly.');
+  });
+
+  // Escape closes the drawer; Tab stays inside it while open
+  document.addEventListener('keydown', e => {
+    if (!drawer.classList.contains('open')) return;
+    if (e.key === 'Escape') return closeCart();
+    if (e.key !== 'Tab') return;
+    const f = [...drawer.querySelectorAll('button:not([disabled])')];
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  /* ---------- Init ---------- */
+  renderChips();
+  renderProducts();
+  renderOrders();
+  renderCart();
+})();
+</script>
 </body>
 </html>
